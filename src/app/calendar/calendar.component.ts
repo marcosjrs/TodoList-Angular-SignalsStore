@@ -1,7 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TasksStore } from '../tasks/tasks.store';
+import { Task } from '../tasks/task.model';
 
 @Component({
   standalone: true,
-  template: '<p>calendar works!</p>',
+  imports: [CommonModule],
+  template: `
+    <div class="container mx-auto p-4">
+      <div class="flex justify-between items-center mb-4">
+        <button (click)="previousMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">&lt; Prev</button>
+        <h2 class="text-xl font-bold">{{ currentMonthYear() }}</h2>
+        <button (click)="nextMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next &gt;</button>
+      </div>
+
+      <div class="grid grid-cols-7 gap-2 text-center font-bold mb-2">
+        <div>Sun</div>
+        <div>Mon</div>
+        <div>Tue</div>
+        <div>Wed</div>
+        <div>Thu</div>
+        <div>Fri</div>
+        <div>Sat</div>
+      </div>
+
+      <div class="grid grid-cols-7 gap-2">
+        @for (day of calendarDays(); track $index) {
+          <div class="p-2 border rounded" [class.bg-gray-100]="!day.date">
+            @if (day.date) {
+              <div class="font-bold">{{ day.date.getDate() }}</div>
+              @for (task of day.tasks; track task.id) {
+                <div class="text-xs bg-blue-200 rounded px-1 py-0.5 mt-1 truncate">{{ task.description }}</div>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  `,
 })
-export default class CalendarComponent {}
+export default class CalendarComponent {
+  private readonly tasksStore = inject(TasksStore);
+  currentDate = signal(new Date());
+
+  currentMonthYear = computed(() => {
+    return this.currentDate().toLocaleString('default', { month: 'long', year: 'numeric' });
+  });
+
+  calendarDays = computed(() => {
+    const date = this.currentDate();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+    const numDaysInMonth = lastDayOfMonth.getDate();
+
+    const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
+
+    const days = [];
+
+    // Add padding for days before the 1st of the month
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      days.push({ date: null, tasks: [] });
+    }
+
+    // Add days of the month
+    for (let i = 1; i <= numDaysInMonth; i++) {
+      const dayDate = new Date(year, month, i);
+      const tasksForDay = this.tasksStore.tasks().filter(task => {
+        if (task.specificDate) {
+          const taskDate = new Date(task.specificDate);
+          return taskDate.getFullYear() === dayDate.getFullYear() &&
+                 taskDate.getMonth() === dayDate.getMonth() &&
+                 taskDate.getDate() === dayDate.getDate();
+        }
+        return false;
+      });
+      days.push({ date: dayDate, tasks: tasksForDay });
+    }
+
+    return days;
+  });
+
+  previousMonth() {
+    const current = this.currentDate();
+    this.currentDate.set(new Date(current.getFullYear(), current.getMonth() - 1, 1));
+  }
+
+  nextMonth() {
+    const current = this.currentDate();
+    this.currentDate.set(new Date(current.getFullYear(), current.getMonth() + 1, 1));
+  }
+}
