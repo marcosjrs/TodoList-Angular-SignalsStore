@@ -43,7 +43,7 @@ import { CommonModule } from '@angular/common';
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @for (task of tasksStore.tasks(); track task.id) {
-          <div class="bg-white shadow-md rounded p-4">
+          <div class="bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
             <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
             <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status }}</p>
             @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
@@ -52,9 +52,15 @@ import { CommonModule } from '@angular/common';
             @if (task.specificDate) {
               <p class="text-gray-600 text-sm mb-2">Date: {{ task.specificDate | date:'shortDate' }}</p>
             }
+            <div class="flex items-center mb-2">
+              @if (task.status !== TaskStatus.InProgress) {
+                <input type="checkbox" [checked]="task.isCompleted" (change)="toggleCompleted(task.id, $event)" class="mr-2">
+                <label>Completed</label>
+              }
+            </div>
             <div class="flex justify-end space-x-2">
               @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
-                <button (click)="tasksStore.startTask(task.id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs">Start</button>
+                <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400">Start</button>
               }
               @if (task.status === TaskStatus.InProgress) {
                 <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">Pause</button>
@@ -111,5 +117,13 @@ export default class TasksComponent {
 
   toggleFormVisibility() {
     this.showForm.update((value) => !value);
+  }
+
+  toggleCompleted(taskId: string, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.tasksStore.updateTask(taskId, {
+      isCompleted: isChecked,
+      status: isChecked ? TaskStatus.Completed : TaskStatus.NotStarted,
+    });
   }
 }
