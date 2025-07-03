@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasksStore } from './tasks.store';
 import { DayOfWeek, Task, TaskStatus } from './task.model';
@@ -9,31 +9,37 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule],
   template: `
     <div class="container mx-auto p-4">
-      <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-4">
-          <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
-          <input id="description" formControlName="description" placeholder="Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <div class="mb-4">
-          <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">Duration (seconds):</label>
-          <input id="durationSeconds" formControlName="durationSeconds" placeholder="Duration (seconds)" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <div class="mb-4">
-          <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">Days of Week:</label>
-          <select id="daysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            @for (day of daysOfWeek; track day) {
-              <option [value]="day">{{ day }}</option>
-            }
-          </select>
-        </div>
-        <div class="mb-4">
-          <label for="specificDate" class="block text-gray-700 text-sm font-bold mb-2">Specific Date:</label>
-          <input id="specificDate" type="date" formControlName="specificDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-        </div>
-        <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
-          Add Task
-        </button>
-      </form>
+      <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+        {{ showForm() ? 'Hide Form' : 'Show Form' }}
+      </button>
+
+      @if (showForm()) {
+        <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+            <input id="description" formControlName="description" placeholder="Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">Duration (seconds):</label>
+            <input id="durationSeconds" formControlName="durationSeconds" placeholder="Duration (seconds)" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">Days of Week:</label>
+            <select id="daysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              @for (day of daysOfWeek; track day) {
+                <option [value]="day">{{ day }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="specificDate" class="block text-gray-700 text-sm font-bold mb-2">Specific Date:</label>
+            <input id="specificDate" type="date" formControlName="specificDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
+            Add Task
+          </button>
+        </form>
+      }
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @for (task of tasksStore.tasks(); track task.id) {
@@ -70,6 +76,8 @@ export default class TasksComponent {
   readonly TaskStatus = TaskStatus;
   readonly daysOfWeek = Object.values(DayOfWeek);
 
+  showForm = signal(false);
+
   taskForm = this.fb.group({
     description: ['', Validators.required],
     durationSeconds: [0, [Validators.required, Validators.min(1)]],
@@ -97,6 +105,11 @@ export default class TasksComponent {
         daysOfWeek: [],
         specificDate: '',
       });
+      this.showForm.set(false); // Hide form after adding task
     }
+  }
+
+  toggleFormVisibility() {
+    this.showForm.update((value) => !value);
   }
 }
