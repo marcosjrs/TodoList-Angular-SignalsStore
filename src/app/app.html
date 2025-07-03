@@ -1,9 +1,11 @@
-<ul>
-  <li><a routerLink="/tasks">Tasks</a></li>
-  <li><a routerLink="/calendar">Calendar</a></li>
-  <li><a routerLink="/chrono">Chrono</a></li>
-  <li><a routerLink="/settings">Settings</a></li>
-</ul>
+<nav class="bg-gray-800 p-4">
+  <ul class="flex justify-around">
+    <li><a routerLink="/tasks" routerLinkActive="active-link" class="text-white hover:text-gray-300">Tasks</a></li>
+    <li><a routerLink="/calendar" routerLinkActive="active-link" class="text-white hover:text-gray-300">Calendar</a></li>
+    <li><a routerLink="/chrono" routerLinkActive="active-link" class="text-white hover:text-gray-300">Chrono</a></li>
+    <li><a routerLink="/settings" routerLinkActive="active-link" class="text-white hover:text-gray-300">Settings</a></li>
+  </ul>
+</nav>
 
 <div class="app-container">
   <router-outlet></router-outlet>

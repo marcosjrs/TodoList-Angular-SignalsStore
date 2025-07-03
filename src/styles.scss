@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.active-link {
+  @apply text-blue-400 font-bold;
+}
