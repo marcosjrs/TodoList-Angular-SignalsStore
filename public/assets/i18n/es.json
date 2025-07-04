@@ -1,8 +1,10 @@
 {
-  "tasksLink": "Tareas",
-  "calendarLink": "Calendario",
-  "chronoLink": "Chrono",
-  "settingsLink": "Configuración",
+  "link":{
+    "tasks": "Tareas",
+    "calendar": "Calendario",
+    "chrono": "Chrono",
+    "settings": "Configuración"
+  },
   "settings": {
     "title":"Configuración",
     "selectLanguage": "Selecionar Idioma",

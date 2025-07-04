@@ -1,8 +1,10 @@
 {
-  "tasksLink": "Tasks",
-  "calendarLink": "Calendar",
-  "chronoLink": "Chrono",
-  "settingsLink": "Settings",
+  "link": {
+    "tasks": "Tasks",
+    "calendar": "Calendar",
+    "chrono": "Chrono",
+    "settings": "Settings"
+  },
   "settings": {
     "title": "Settings",
     "selectLanguage": "Select Language",
@@ -48,6 +50,7 @@
   "FRIDAY": "Friday",
   "SATURDAY": "Saturday",
   "SUNDAY": "Sunday",
+
   "NOT_STARTED": "Not Started",
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
