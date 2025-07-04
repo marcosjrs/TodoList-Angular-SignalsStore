@@ -91,6 +91,15 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash } from '@fo
               }
             </select>
           </div>
+          <div class="mb-4">
+            <label for="sortBy" class="block text-gray-700 text-sm font-bold mb-2">{{'Sort by' | transloco}}</label>
+            <select id="sortBy" formControlName="sortBy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">{{'None' | transloco}}</option>
+              <option value="description">{{'Description' | transloco}}</option>
+              <option value="category">{{'Category' | transloco}}</option>
+              <option value="specificDate">{{'Specific Date' | transloco}}</option>
+            </select>
+          </div>
           <button (click)="applyFilters()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {{'Apply' | transloco}}
           </button>
@@ -176,6 +185,7 @@ export default class TasksComponent {
     category: [''],
     status: [''],
     daysOfWeek: [[] as DayOfWeek[]],
+    sortBy: [''], // New form control for sorting
   });
 
   appliedFilters = signal({
@@ -183,13 +193,14 @@ export default class TasksComponent {
     category: '',
     status: '',
     daysOfWeek: [] as DayOfWeek[],
+    sortBy: '', // New signal for applied sorting
   });
 
   filteredTasks = computed(() => {
     const tasks = this.tasksStore.tasks();
     const filter = this.appliedFilters();
 
-    return tasks.filter(task => {
+    let filtered = tasks.filter(task => {
       const matchesDescription = filter.description ? task.description.toLowerCase().includes(filter.description.toLowerCase()) : true;
       const matchesCategory = filter.category ? task.category === filter.category : true;
       const matchesStatus = filter.status ? task.status === filter.status : true;
@@ -198,26 +209,62 @@ export default class TasksComponent {
 
       return matchesDescription && matchesCategory && matchesStatus && matchesDaysOfWeek;
     });
+
+    // Sorting logic
+    if (filter.sortBy) {
+      filtered = [...filtered].sort((a, b) => {
+        let valA: any;
+        let valB: any;
+
+        switch (filter.sortBy) {
+          case 'description':
+            valA = a.description?.toLowerCase() || '';
+            valB = b.description?.toLowerCase() || '';
+            break;
+          case 'category':
+            valA = a.category?.toLowerCase() || '';
+            valB = b.category?.toLowerCase() || '';
+            break;
+          case 'specificDate':
+            valA = a.specificDate ? new Date(a.specificDate).getTime() : Infinity;
+            valB = b.specificDate ? new Date(b.specificDate).getTime() : Infinity;
+            break;
+          default:
+            return 0;
+        }
+
+        if (valA === '' && valB !== '') return 1; // Empty values go to the end
+        if (valA !== '' && valB === '') return -1; // Empty values go to the end
+
+        if (valA < valB) return -1;
+        if (valA > valB) return 1;
+        return 0;
+      });
+    }
+
+    return filtered;
   });
 
   constructor() {
     // Initialize appliedFilters with default values
-    const { description, category, status, daysOfWeek } = this.filterForm.value;
+    const { description, category, status, daysOfWeek, sortBy } = this.filterForm.value;
     this.appliedFilters.set({
       description: description ?? '',
       category: category ?? '',
       status: status ?? '',
       daysOfWeek: daysOfWeek ?? [],
+      sortBy: sortBy ?? '',
     });
   }
 
   applyFilters() {
-    const { description, category, status, daysOfWeek } = this.filterForm.value;
+    const { description, category, status, daysOfWeek, sortBy } = this.filterForm.value;
     this.appliedFilters.set({
       description: description ?? '',
       category: category ?? '',
       status: status ?? '',
       daysOfWeek: daysOfWeek ?? [],
+      sortBy: sortBy ?? '',
     });
   }
 
