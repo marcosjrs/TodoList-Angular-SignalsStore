@@ -141,6 +141,7 @@ export default class ChronoComponent implements OnDestroy {
         this.elapsedTime.set(Date.now() - startTime);
         this.checkAlarm();
       });
+      this.setAlarm(false);
     } else {
       clearInterval(this.timer);
     }
@@ -157,12 +158,21 @@ export default class ChronoComponent implements OnDestroy {
     this.showAlarmForm.update((visible) => !visible);
   }
 
-  setAlarm() {
+  setAlarm(hideAlarmForm = true) {
+    if (
+      !this.alarmForm?.value?.hours &&
+      !this.alarmForm.value?.minutes &&
+      !this.alarmForm.value?.seconds
+    ) {
+      return;
+    }
     const { hours, minutes, seconds } = this.alarmForm.value;
     const totalSeconds =
       (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0);
     this.alarmTime.set(totalSeconds * 1000);
-    this.showAlarmForm.set(false);
+    if(hideAlarmForm) {
+      this.showAlarmForm.set(false);
+    }
   }
 
   checkAlarm() {
