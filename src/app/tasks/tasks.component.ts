@@ -285,6 +285,7 @@ export default class TasksComponent implements OnInit {
       daysOfWeek: daysOfWeek ?? [],
       sortBy: sortBy ?? '',
     });
+    this.showFilterForm.set(false);
   }
 
   addTask() {
