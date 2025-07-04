@@ -81,6 +81,14 @@ import { CategoriesService } from '../settings/categories.service';
               }
             </select>
           </div>
+          <div class="mb-4">
+            <label for="filterDaysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Days of Week' | transloco}}</label>
+            <select id="filterDaysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              @for (day of daysOfWeek; track day) {
+                <option [value]="day">{{ day | transloco }}</option>
+              }
+            </select>
+          </div>
           <button (click)="applyFilters()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {{'Apply' | transloco}}
           </button>
@@ -156,12 +164,14 @@ export default class TasksComponent {
     description: [''],
     category: [''],
     status: [''],
+    daysOfWeek: [[] as DayOfWeek[]],
   });
 
   appliedFilters = signal({
     description: '',
     category: '',
     status: '',
+    daysOfWeek: [] as DayOfWeek[],
   });
 
   filteredTasks = computed(() => {
@@ -172,27 +182,31 @@ export default class TasksComponent {
       const matchesDescription = filter.description ? task.description.toLowerCase().includes(filter.description.toLowerCase()) : true;
       const matchesCategory = filter.category ? task.category === filter.category : true;
       const matchesStatus = filter.status ? task.status === filter.status : true;
+      const matchesDaysOfWeek = filter.daysOfWeek.length > 0 ?
+        (task.daysOfWeek && filter.daysOfWeek.every(day => task.daysOfWeek!.includes(day))) : true;
 
-      return matchesDescription && matchesCategory && matchesStatus;
+      return matchesDescription && matchesCategory && matchesStatus && matchesDaysOfWeek;
     });
   });
 
   constructor() {
     // Initialize appliedFilters with default values
-    const { description, category, status } = this.filterForm.value;
+    const { description, category, status, daysOfWeek } = this.filterForm.value;
     this.appliedFilters.set({
       description: description ?? '',
       category: category ?? '',
       status: status ?? '',
+      daysOfWeek: daysOfWeek ?? [],
     });
   }
 
   applyFilters() {
-    const { description, category, status } = this.filterForm.value;
+    const { description, category, status, daysOfWeek } = this.filterForm.value;
     this.appliedFilters.set({
       description: description ?? '',
       category: category ?? '',
       status: status ?? '',
+      daysOfWeek: daysOfWeek ?? [],
     });
   }
 
