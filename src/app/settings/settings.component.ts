@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CategoriesService } from './categories.service';
 import { TasksStore } from '../tasks/tasks.store';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslocoModule],
+  imports: [CommonModule, TranslocoModule, FontAwesomeModule],
   styleUrl: './settings.component.scss',
   template: `
     <div class="container mx-auto p-4">
@@ -33,7 +35,7 @@ import { TasksStore } from '../tasks/tasks.store';
           @for (category of categoriesService.categories(); track category) {
             <li class="flex justify-between items-center mb-1">
               <span>{{category}}</span>
-              <button (click)="removeCategory(category)" class="text-red-500 hover:text-red-700">{{'settings.remove' | transloco}}</button>
+              <button (click)="removeCategory(category)" class="text-red-500 hover:text-red-700"><fa-icon [icon]="faTrash"></fa-icon></button>
             </li>
           }
         </ul>
@@ -53,6 +55,7 @@ export default class SettingsComponent implements OnInit {
   tasksStore = inject(TasksStore);
   currentLanguage = signal(this.translocoService.getActiveLang());
   isDarkMode = signal(false);
+  faTrash = faTrash;
 
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
