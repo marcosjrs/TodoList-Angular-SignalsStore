@@ -7,7 +7,6 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   standalone: true,
-  providers: [TranslocoService],
   imports: [ReactiveFormsModule, CommonModule, TranslocoModule],
   template: `
     <div class="container mx-auto p-4">
@@ -49,7 +48,11 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
             <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
             <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status }}</p>
             @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
-              <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>: {{ task.daysOfWeek.join(', ') }}</p>
+              <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
+              @for (day of task.daysOfWeek; track day; let last = $last) {
+                {{ day | transloco }} @if(!last){ <span>|</span>}
+              }
+            </p>
             }
             @if (task.specificDate) {
               <p class="text-gray-600 text-sm mb-2"><span>{{'Date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>

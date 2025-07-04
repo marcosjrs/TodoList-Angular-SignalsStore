@@ -27,5 +27,12 @@
   "Wed": "Mié",
   "Thu": "Jue",
   "Fri": "Vie",
-  "Sat": "Sáb"
+  "Sat": "Sáb",
+  "MONDAY": "Lunes",
+  "TUESDAY": "Martes",
+  "WEDNESDAY": "Miércoles",
+  "THURSDAY": "Jueves",
+  "FRIDAY": "Viernes",
+  "SATURDAY": "Sábado",
+  "SUNDAY": "Domingo"
 }

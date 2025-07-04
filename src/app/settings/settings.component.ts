@@ -5,7 +5,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 @Component({
   standalone: true,
   imports: [CommonModule, TranslocoModule],
-  providers: [TranslocoService],
+  
   template: `
     <div class="container mx-auto p-4">
       <h2 class="text-xl font-bold mb-4" transloco="settings.title">Settings</h2>
