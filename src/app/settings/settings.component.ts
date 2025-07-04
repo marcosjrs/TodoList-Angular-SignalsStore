@@ -3,60 +3,147 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CategoriesService } from './categories.service';
 import { TasksStore } from '../tasks/tasks.store';
-import { faTrash, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrash,
+  faDownload,
+  faUpload,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirmation-popup.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslocoModule, FontAwesomeModule, ConfirmationPopupComponent],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    FontAwesomeModule,
+    ConfirmationPopupComponent,
+  ],
   styleUrl: './settings.component.scss',
   template: `
     <div class="container mx-auto p-4">
       <div class="container-mode-toggle">
         <div class="relative inline-block">
           <div>
-            <label for="dark-mode-toggle">Dark Mode </label>
-            <input type="checkbox" name="toggle" id="dark-mode-toggle" class="toggle-checkbox" [checked]="isDarkMode()" (change)="toggleDarkMode()"/>
+            <label for="dark-mode-toggle"
+              >{{ 'settings.darkMode' | transloco }}
+            </label>
+            <input
+              type="checkbox"
+              name="toggle"
+              id="dark-mode-toggle"
+              class="toggle-checkbox"
+              [checked]="isDarkMode()"
+              (change)="toggleDarkMode()"
+            />
           </div>
         </div>
       </div>
-      <h3 class="text-lg font-bold mb-2">{{'settings.selectLanguage' | transloco}}</h3>
+      <h3 class="text-lg font-bold mb-2">
+        {{ 'settings.selectLanguage' | transloco }}
+      </h3>
       <div class="mb-4">
-        <select id="language-select" (change)="changeLanguage($event)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          <option value="en" [selected]="currentLanguage() === 'en'">English</option>
-          <option value="es" [selected]="currentLanguage() === 'es'">Español</option>
-          <option value="gl" [selected]="currentLanguage() === 'gl'">Galego</option>
+        <select
+          id="language-select"
+          (change)="changeLanguage($event)"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option value="en" [selected]="currentLanguage() === 'en'">
+            English
+          </option>
+          <option value="es" [selected]="currentLanguage() === 'es'">
+            Español
+          </option>
+          <option value="gl" [selected]="currentLanguage() === 'gl'">
+            Galego
+          </option>
         </select>
       </div>
       <div class="mb-4">
-        <h3 class="text-lg font-bold mb-2">{{'settings.categories' | transloco}}</h3>
+        <h3 class="text-lg font-bold mb-2">
+          {{ 'settings.categories' | transloco }}
+        </h3>
         <div class="flex mb-2">
-          <input type="text" #newCategory class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2" />
-          <button (click)="addCategory(newCategory.value); newCategory.value = ''" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{'settings.addCategory' | transloco}}</button>
+          <input
+            type="text"
+            #newCategory
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+          />
+          <button
+            (click)="addCategory(newCategory.value); newCategory.value = ''"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {{ 'settings.addCategory' | transloco }}
+          </button>
         </div>
         <ul>
           @for (category of categoriesService.categories(); track category) {
-            <li class="flex justify-between items-center mb-1">
-              <span>{{category}}</span>
-              <button (click)="removeCategory(category)" class="text-red-500 hover:text-red-700"><fa-icon [icon]="faTrash"></fa-icon></button>
-            </li>
+          <li class="flex justify-between items-center mb-1">
+            <span>{{ category }}</span>
+            <button
+              (click)="removeCategory(category)"
+              class="text-red-500 hover:text-red-700"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </li>
           }
         </ul>
       </div>
       <div class="mb-4">
-        <h3 class="text-lg font-bold mb-2">{{'settings.dataManagement' | transloco}}</h3>
-        <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"><fa-icon [icon]="faDownload"></fa-icon> {{'settings.exportData' | transloco}}</button>
-        <input type="file" (change)="importData($event)" accept=".json" class="hidden" #fileInput>
-        <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><fa-icon [icon]="faUpload"></fa-icon>  {{'settings.importData' | transloco}}</button>
-        <button (click)="confirmClearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
-        <button (click)="confirmClearPastDatedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearPastDated' | transloco}}</button>
-        <button (click)="confirmClearAllData()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearAllData' | transloco}}</button>
+        <h3 class="text-lg font-bold mb-2">
+          {{ 'settings.dataManagement' | transloco }}
+        </h3>
+        <button
+          (click)="exportData()"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          <fa-icon [icon]="faDownload"></fa-icon>
+          {{ 'settings.exportData' | transloco }}
+        </button>
+        <input
+          type="file"
+          (change)="importData($event)"
+          accept=".json"
+          class="hidden"
+          #fileInput
+        />
+        <button
+          (click)="fileInput.click()"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          <fa-icon [icon]="faUpload"></fa-icon>
+          {{ 'settings.importData' | transloco }}
+        </button>
+        <button
+          (click)="confirmClearCompletedTasks()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon>
+          {{ 'settings.clearCompleted' | transloco }}
+        </button>
+        <button
+          (click)="confirmClearPastDatedTasks()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon>
+          {{ 'settings.clearPastDated' | transloco }}
+        </button>
+        <button
+          (click)="confirmClearAllData()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+        >
+          <fa-icon [icon]="faTrash"></fa-icon>
+          {{ 'settings.clearAllData' | transloco }}
+        </button>
       </div>
     </div>
 
     @if (showConfirmationPopup()) {
-      <app-confirmation-popup [message]="confirmationMessage()" (confirm)="handleConfirmation($event)"></app-confirmation-popup>
+    <app-confirmation-popup
+      [message]="confirmationMessage()"
+      (confirm)="handleConfirmation($event)"
+    ></app-confirmation-popup>
     }
   `,
 })
@@ -72,7 +159,8 @@ export default class SettingsComponent implements OnInit {
 
   showConfirmationPopup = signal(false);
   confirmationMessage = signal('');
-  actionToConfirm: 'clearCompleted' | 'clearPastDated' | 'clearAllData' | null = null;
+  actionToConfirm: 'clearCompleted' | 'clearPastDated' | 'clearAllData' | null =
+    null;
 
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
@@ -85,7 +173,10 @@ export default class SettingsComponent implements OnInit {
     if (storedDarkMode) {
       this.isDarkMode.set(storedDarkMode === 'true');
     } else {
-      this.isDarkMode.set(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      this.isDarkMode.set(
+        window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+      );
     }
     this.updateDarkMode();
   }
@@ -143,7 +234,9 @@ export default class SettingsComponent implements OnInit {
           }
           if (importedData.categories) {
             localStorage.setItem('categories', importedData.categories);
-            this.categoriesService.setCategories(JSON.parse(importedData.categories)); // Actualizar el servicio de categorías
+            this.categoriesService.setCategories(
+              JSON.parse(importedData.categories)
+            ); // Actualizar el servicio de categorías
           }
           if (importedData.darkMode) {
             localStorage.setItem('darkMode', importedData.darkMode);
@@ -156,7 +249,9 @@ export default class SettingsComponent implements OnInit {
           }
           alert('Datos importados correctamente.');
         } catch (error) {
-          alert('Error al importar los datos. Asegúrate de que el archivo es un JSON válido.');
+          alert(
+            'Error al importar los datos. Asegúrate de que el archivo es un JSON válido.'
+          );
           console.error('Error importing data:', error);
         }
       };
