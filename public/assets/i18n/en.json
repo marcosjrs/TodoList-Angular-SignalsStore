@@ -14,7 +14,7 @@
   "Category": "Category",
   "None": "None",
   "Creation Form": "Create",
-  "Filter Form": "Filtrate",
+  "Filter Form": "Filtrate / Sort",
   "Description": "Description",
   "Duration (seconds)": "Duration (secs)",
   "Days of Week": "Days of the Week",
@@ -64,7 +64,6 @@
   "All Statuses": "All Statuses",
   "Filter by Days of Week": "Filter by Days of Week",
   "All Days": "All Days",
-  "Apply": "Apply",
   "Apply": "Apply",
   "Sort by": "Sort by"
 }

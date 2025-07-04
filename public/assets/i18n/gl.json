@@ -12,9 +12,8 @@
     "remove": "Eliminar"
   },
   "Category": "Categoría",
-  "None": "Ningunha",
   "Creation Form": "Crear",
-  "Filter Form": "Filtrar",
+  "Filter Form": "Filtrar / Ordenar",
 
 
   "Description": "Descrición",
@@ -66,7 +65,6 @@
   "All Statuses": "Todos os Estados",
   "Filter by Days of Week": "Filtrar por Días da Semana",
   "All Days": "Todos os Días",
-  "Apply": "Aplicar",
   "Apply": "Aplicar",
   "Sort by": "Ordenar por",
   "None": "Ningunha"
