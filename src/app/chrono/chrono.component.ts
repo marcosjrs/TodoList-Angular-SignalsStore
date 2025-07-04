@@ -25,7 +25,7 @@ import {
       <div
         class="container mx-auto p-4 text-center flex flex-col items-center justify-center h-full"
       >
-        <div class="text-6xl font-mono mb-4" [style]="{ 'color': showAlarmMessage() ? 'red' : 'black' }">
+        <div class="text-6xl font-mono mb-4" [class.text-red-800]="showAlarmMessage()">
           {{ formatTime(elapsedTime()) }}
         </div>
         <div class="space-x-2 mb-4">
