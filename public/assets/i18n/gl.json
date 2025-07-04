@@ -6,7 +6,10 @@
   "settings": {
     "title": "Configuración",
     "selectLanguage": "Seleccionar idioma",
-    "darkMode": "Modo Escuro"
+    "darkMode": "Modo Escuro",
+    "categories": "Categorías",
+    "addCategory": "+",
+    "remove": "Eliminar"
   },
   "Hide Form": "Pechar formulario de creación",
   "Show Form": "Amosar formulario de creación",
