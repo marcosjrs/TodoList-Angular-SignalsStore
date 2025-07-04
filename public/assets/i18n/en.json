@@ -9,6 +9,7 @@
     "title": "Settings",
     "selectLanguage": "Select Language",
     "darkMode": "Dark Mode",
+    "minimizeTasks": "Minimize Tasks by Default",
     "categories": "Categories",
     "addCategory": "+",
     "remove": "Remove",

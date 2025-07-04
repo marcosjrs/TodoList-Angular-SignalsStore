@@ -1,8 +1,9 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CategoriesService } from './categories.service';
 import { TasksStore } from '../tasks/tasks.store';
+import { SettingsService } from '../shared/settings.service';
 import {
   faTrash,
   faDownload,
@@ -137,6 +138,21 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
           {{ 'settings.clearAllData' | transloco }}
         </button>
       </div>
+      <div class="relative inline-block mt-4">
+        <div>
+          <input
+            type="checkbox"
+            name="toggle"
+            id="minimize-tasks-toggle"
+            class="toggle-checkbox"
+            [checked]="settingsService.minimizeTasks()"
+            (change)="settingsService.toggleMinimizeTasks()"
+          />
+          <label for="minimize-tasks-toggle"
+            > {{ 'settings.minimizeTasks' | transloco }}
+          </label>
+        </div>
+      </div>
     </div>
 
     @if (showConfirmationPopup()) {
@@ -147,10 +163,11 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
     }
   `,
 })
-export default class SettingsComponent implements OnInit {
+export default class SettingsComponent {
   private translocoService = inject(TranslocoService);
   categoriesService = inject(CategoriesService);
   tasksStore = inject(TasksStore);
+  settingsService = inject(SettingsService);
   currentLanguage = signal(this.translocoService.getActiveLang());
   isDarkMode = signal(false);
   faTrash = faTrash;
@@ -208,6 +225,7 @@ export default class SettingsComponent implements OnInit {
       categories: localStorage.getItem('categories'),
       darkMode: localStorage.getItem('darkMode'),
       lang: localStorage.getItem('translocoLang'),
+      minimizeTasks: this.settingsService.minimizeTasks(),
     };
     const dataStr = JSON.stringify(data, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -246,6 +264,11 @@ export default class SettingsComponent implements OnInit {
           if (importedData.lang) {
             localStorage.setItem('translocoLang', importedData.lang);
             this.translocoService.setActiveLang(importedData.lang);
+          }
+          if (importedData.minimizeTasks) {
+            this.settingsService.setMinimizeTasks(
+              importedData.minimizeTasks === 'true'
+            );
           }
           alert('Datos importados correctamente.');
         } catch (error) {
@@ -289,6 +312,7 @@ export default class SettingsComponent implements OnInit {
         this.tasksStore.setTasks([]);
         this.categoriesService.setCategories([]);
         this.isDarkMode.set(false);
+        this.settingsService.setMinimizeTasks(false);
         this.translocoService.setActiveLang('en');
         alert(this.translocoService.translate('settings.allDataCleared'));
       }

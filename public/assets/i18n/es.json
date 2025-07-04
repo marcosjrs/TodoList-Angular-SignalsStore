@@ -9,6 +9,7 @@
     "title":"Configuración",
     "selectLanguage": "Selecionar Idioma",
     "darkMode": "Modo Oscuro",
+    "minimizeTasks": "Minimizar Tareas por Defecto",
     "categories": "Categorías",
     "addCategory": "+",
     "remove": "Eliminar",

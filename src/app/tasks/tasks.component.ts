@@ -1,10 +1,11 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasksStore } from './tasks.store';
 import { DayOfWeek, Task, TaskStatus } from './task.model';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CategoriesService } from '../settings/categories.service';
+import { SettingsService } from '../shared/settings.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -159,10 +160,11 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
     </div>
   `,
 })
-export default class TasksComponent {
+export default class TasksComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   readonly tasksStore = inject(TasksStore);
   readonly categoriesService = inject(CategoriesService);
+  readonly settingsService = inject(SettingsService);
   readonly TaskStatus = TaskStatus;
   readonly daysOfWeek = Object.values(DayOfWeek);
   readonly taskStatuses = Object.values(TaskStatus);
@@ -266,6 +268,14 @@ export default class TasksComponent {
     });
   }
 
+  ngOnInit() {
+    // Set initial minimized state for existing tasks based on settings
+    const minimize = this.settingsService.minimizeTasks();
+    this.tasksStore.tasks().forEach(task => {
+      this.tasksStore.updateTask(task.id, { isMinimized: minimize });
+    });
+  }
+
   applyFilters() {
     const { description, category, status, daysOfWeek, sortBy } = this.filterForm.value;
     this.appliedFilters.set({
@@ -290,7 +300,7 @@ export default class TasksComponent {
         daysOfWeek: daysOfWeek || undefined,
         specificDate: specificDate ? new Date(specificDate) : undefined,
         category: category || undefined,
-        isMinimized: false, // Initialize as not minimized
+        isMinimized: this.settingsService.minimizeTasks(), // Initialize as minimized based on settings
       };
       this.tasksStore.addTask(newTask);
       this.taskForm.reset({
