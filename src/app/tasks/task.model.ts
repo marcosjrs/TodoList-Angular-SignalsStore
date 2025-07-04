@@ -1,8 +1,8 @@
 export interface Task {
   id: string;
   description: string;
-  durationSeconds: number;
-  initialDurationSeconds: number;
+  durationSeconds?: number;
+  initialDurationSeconds?: number;
   isCompleted: boolean;
   status: TaskStatus;
   daysOfWeek?: DayOfWeek[];

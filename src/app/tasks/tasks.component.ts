@@ -22,7 +22,7 @@ import { CategoriesService } from '../settings/categories.service';
             <input id="description" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration (seconds)' | transloco}} *</label>
+            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration (seconds)' | transloco}}</label>
             <input id="durationSeconds" formControlName="durationSeconds" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
@@ -61,7 +61,7 @@ import { CategoriesService } from '../settings/categories.service';
                 {{ task.category }}
               </span>
             }
-            <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status | transloco}}</p>
+            <p class="text-gray-700 text-base mb-2">@if (task.durationSeconds) { {{ task.durationSeconds }}s - } {{ task.status | transloco}}</p>
             @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
               <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
               @for (day of task.daysOfWeek; track day; let last = $last) {
@@ -79,14 +79,16 @@ import { CategoriesService } from '../settings/categories.service';
               }
             </div>
             <div class="flex justify-end space-x-2">
-              @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
-                <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400">{{'Start' | transloco}}</button>
-              }
-              @if (task.status === TaskStatus.InProgress) {
-                <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Pause' | transloco}}</button>
-              }
-              @if (task.status === TaskStatus.Completed || task.status === TaskStatus.InProgress || task.status === TaskStatus.Paused) {
-                <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Reset' | transloco}}</button>
+              @if (task.durationSeconds !== undefined && task.durationSeconds > 0) {
+                @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
+                  <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400">{{'Start' | transloco}}</button>
+                }
+                @if (task.status === TaskStatus.InProgress) {
+                  <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Pause' | transloco}}</button>
+                }
+                @if (task.status === TaskStatus.Completed || task.status === TaskStatus.InProgress || task.status === TaskStatus.Paused) {
+                  <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Reset' | transloco}}</button>
+                }
               }
               <button (click)="tasksStore.removeTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Remove' | transloco}}</button>
             </div>
@@ -107,7 +109,7 @@ export default class TasksComponent {
 
   taskForm = this.fb.group({
     description: ['', Validators.required],
-    durationSeconds: [0, [Validators.required, Validators.min(1)]],
+    durationSeconds: [null], // durationSeconds is now optional
     daysOfWeek: [[] as DayOfWeek[]],
     specificDate: [''],
     category: [''],
@@ -119,8 +121,8 @@ export default class TasksComponent {
       const newTask: Task = {
         id: Math.random().toString(36).substring(2),
         description: description!,
-        durationSeconds: durationSeconds!,
-        initialDurationSeconds: durationSeconds!,
+        durationSeconds: durationSeconds ?? undefined, // Make it optional
+        initialDurationSeconds: durationSeconds ?? undefined, // Make it optional
         isCompleted: false,
         status: TaskStatus.NotStarted,
         daysOfWeek: daysOfWeek || undefined,
@@ -130,7 +132,7 @@ export default class TasksComponent {
       this.tasksStore.addTask(newTask);
       this.taskForm.reset({
         description: '',
-        durationSeconds: 0,
+        durationSeconds: null, // Reset to null for optional field
         daysOfWeek: [],
         specificDate: '',
         category: '',

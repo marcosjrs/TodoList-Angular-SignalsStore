@@ -45,10 +45,10 @@ export const TasksStore = signalStore(
         timerService.startTimer(id, () => {
           const task = store.tasks().find((t) => t.id === id);
           if (task) {
-            if (task.durationSeconds > 0) {
+            if (task.durationSeconds && task.durationSeconds > 0) {
               patchState(store, {
                 tasks: store.tasks().map((t) =>
-                  t.id === id ? { ...t, durationSeconds: t.durationSeconds - 1 } : t
+                  t.id === id ? { ...t, durationSeconds: t.durationSeconds?  t.durationSeconds - 1 : undefined } : t
                 ),
               });
             } else {
