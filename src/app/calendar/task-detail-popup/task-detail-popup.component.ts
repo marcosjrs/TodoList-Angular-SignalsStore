@@ -32,6 +32,9 @@ import { TranslocoModule } from '@ngneat/transloco';
           }
           <p><strong>{{'Status' | transloco}}:</strong> {{ task.status | transloco }}</p>
           <p><strong>{{'Completed' | transloco}}:</strong> {{ task.isCompleted ? ('Yes' | transloco) : ('No' | transloco) }}</p>
+          <div class="flex justify-end mt-4">
+            <button (click)="deleteTask.emit(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">{{'Delete Task' | transloco}}</button>
+          </div>
         }
       </div>
     </div>
@@ -40,6 +43,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class TaskDetailPopupComponent {
   @Input() task: Task | null = null;
   @Output() close = new EventEmitter<void>();
+  @Output() deleteTask = new EventEmitter<string>();
 
   readonly TaskStatus = TaskStatus;
   readonly DayOfWeek = DayOfWeek;

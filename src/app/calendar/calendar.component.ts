@@ -41,7 +41,7 @@ import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.
     </div>
 
     @if (selectedTask()) {
-      <app-task-detail-popup [task]="selectedTask()" (close)="closeTaskDetails()"></app-task-detail-popup>
+      <app-task-detail-popup [task]="selectedTask()" (close)="closeTaskDetails()" (deleteTask)="deleteTaskAndClosePopup($event)"></app-task-detail-popup>
     }
   `,
 })
@@ -106,5 +106,10 @@ export default class CalendarComponent {
 
   closeTaskDetails() {
     this.selectedTask.set(null);
+  }
+
+  deleteTaskAndClosePopup(taskId: string) {
+    this.tasksStore.removeTask(taskId);
+    this.closeTaskDetails();
   }
 }
