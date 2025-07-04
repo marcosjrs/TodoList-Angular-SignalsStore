@@ -49,8 +49,6 @@
     "deleteTask": "Delete Task",
     "category": "Category"
   },
-
-
   "chrono": {
     "alarm": "Alarm",
     "hours": "Hours",
