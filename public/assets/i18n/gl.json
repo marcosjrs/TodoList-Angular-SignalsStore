@@ -53,5 +53,14 @@
   "Set Alarm": "Establecer Alarma",
   "settings.dataManagement": "Xestión de Datos",
   "settings.exportData": "Exportar Datos",
-  "settings.importData": "Importar Datos"
+  "settings.importData": "Importar Datos",
+  "Hide Filter Form": "Ocultar Formulario de Filtro",
+  "Show Filter Form": "Amosar Formulario de Filtro",
+  "Filter by Description": "Filtrar por Descrición",
+  "Filter by Category": "Filtrar por Categoría",
+  "Filter by Status": "Filtrar por Estado",
+  "All Categories": "Todas as Categorías",
+  "All Statuses": "Todos os Estados",
+  "Apply": "Aplicar",
+  "Apply": "Aplicar"
 }

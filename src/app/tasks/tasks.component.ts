@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasksStore } from './tasks.store';
 import { DayOfWeek, Task, TaskStatus } from './task.model';
@@ -11,9 +11,14 @@ import { CategoriesService } from '../settings/categories.service';
   imports: [ReactiveFormsModule, CommonModule, TranslocoModule],
   template: `
     <div class="container mx-auto p-4">
-      <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mb-4">
-        {{ showForm() ? ('Hide Form' | transloco) : ('Show Form' | transloco) }}
-      </button>
+      <div class="flex justify-between mb-4">
+        <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
+          {{ showForm() ? ('Hide Form' | transloco) : ('Show Form' | transloco) }}
+        </button>
+        <button (click)="toggleFilterFormVisibility()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-sm">
+          {{ showFilterForm() ? ('Hide Filter Form' | transloco) : ('Show Filter Form' | transloco) }}
+        </button>
+      </div>
 
       @if (showForm()) {
         <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -52,8 +57,38 @@ import { CategoriesService } from '../settings/categories.service';
         </form>
       }
 
+      @if (showFilterForm()) {
+        <form [formGroup]="filterForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label for="filterDescription" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Description' | transloco}}</label>
+            <input id="filterDescription" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="filterCategory" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Category' | transloco}}</label>
+            <select id="filterCategory" formControlName="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">{{'All Categories' | transloco}}</option>
+              @for (category of categoriesService.categories(); track category) {
+                <option [value]="category">{{ category }}</option>
+              }
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="filterStatus" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Status' | transloco}}</label>
+            <select id="filterStatus" formControlName="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">{{'All Statuses' | transloco}}</option>
+              @for (status of taskStatuses; track status) {
+                <option [value]="status">{{ status | transloco }}</option>
+              }
+            </select>
+          </div>
+          <button (click)="applyFilters()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            {{'Apply' | transloco}}
+          </button>
+        </form>
+      }
+
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        @for (task of tasksStore.tasks(); track task.id) {
+        @for (task of filteredTasks(); track task.id) {
           <div class="bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
             <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
             @if (task.category) {
@@ -104,8 +139,10 @@ export default class TasksComponent {
   readonly categoriesService = inject(CategoriesService);
   readonly TaskStatus = TaskStatus;
   readonly daysOfWeek = Object.values(DayOfWeek);
+  readonly taskStatuses = Object.values(TaskStatus);
 
   showForm = signal(false);
+  showFilterForm = signal(false);
 
   taskForm = this.fb.group({
     description: ['', Validators.required],
@@ -114,6 +151,50 @@ export default class TasksComponent {
     specificDate: [''],
     category: [''],
   });
+
+  filterForm = this.fb.group({
+    description: [''],
+    category: [''],
+    status: [''],
+  });
+
+  appliedFilters = signal({
+    description: '',
+    category: '',
+    status: '',
+  });
+
+  filteredTasks = computed(() => {
+    const tasks = this.tasksStore.tasks();
+    const filter = this.appliedFilters();
+
+    return tasks.filter(task => {
+      const matchesDescription = filter.description ? task.description.toLowerCase().includes(filter.description.toLowerCase()) : true;
+      const matchesCategory = filter.category ? task.category === filter.category : true;
+      const matchesStatus = filter.status ? task.status === filter.status : true;
+
+      return matchesDescription && matchesCategory && matchesStatus;
+    });
+  });
+
+  constructor() {
+    // Initialize appliedFilters with default values
+    const { description, category, status } = this.filterForm.value;
+    this.appliedFilters.set({
+      description: description ?? '',
+      category: category ?? '',
+      status: status ?? '',
+    });
+  }
+
+  applyFilters() {
+    const { description, category, status } = this.filterForm.value;
+    this.appliedFilters.set({
+      description: description ?? '',
+      category: category ?? '',
+      status: status ?? '',
+    });
+  }
 
   addTask() {
     if (this.taskForm.valid) {
@@ -143,6 +224,10 @@ export default class TasksComponent {
 
   toggleFormVisibility() {
     this.showForm.update((value) => !value);
+  }
+
+  toggleFilterFormVisibility() {
+    this.showFilterForm.update((value) => !value);
   }
 
   toggleCompleted(taskId: string, event: Event) {
