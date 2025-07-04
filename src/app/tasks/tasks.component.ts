@@ -15,34 +15,34 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
     <div class="container mx-auto p-4">
       <div id="filtrosYOrdenacion" class="flex justify-between mb-4">
         <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
-          <fa-icon [icon]="showForm() ? faEyeSlash : faEye"></fa-icon> {{'Creation Form' | transloco}}
+          <fa-icon [icon]="showForm() ? faEyeSlash : faEye"></fa-icon> {{'tasks.creationForm' | transloco}}
         </button>
         <button (click)="toggleFilterFormVisibility()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-sm">
-          <fa-icon [icon]="showFilterForm() ? faEyeSlash : faEye"></fa-icon> {{'Filter Form' | transloco}}
+          <fa-icon [icon]="showFilterForm() ? faEyeSlash : faEye"></fa-icon> {{'tasks.filterForm' | transloco}}
         </button>
       </div>
 
       @if (showForm()) {
         <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
-            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{'Description' | transloco}} *</label>
+            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.description' | transloco}} *</label>
             <input id="description" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration (seconds)' | transloco}}</label>
+            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.durationSeconds' | transloco}}</label>
             <input id="durationSeconds" formControlName="durationSeconds" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{'Category' | transloco}}</label>
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.category' | transloco}}</label>
             <select id="category" formControlName="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="">{{'None' | transloco}}</option>
+              <option value="">{{'tasks.none' | transloco}}</option>
               @for (category of categoriesService.categories(); track category) {
                 <option [value]="category">{{ category }}</option>
               }
             </select>
           </div>
           <div class="mb-4">
-            <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'Days of Week' | transloco}}</label>
+            <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.daysOfWeek' | transloco}}</label>
             <select id="daysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               @for (day of daysOfWeek; track day) {
                 <option [value]="day">{{ day | transloco }}</option>
@@ -50,7 +50,7 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
             </select>
           </div>
           <div class="mb-4">
-            <label for="specificDate" class="block text-gray-700 text-sm font-bold mb-2">{{'Specific Date' | transloco}}</label>
+            <label for="specificDate" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.specificDate' | transloco}}</label>
             <input id="specificDate" type="date" formControlName="specificDate" placeholder=" " class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
@@ -62,29 +62,29 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
       @if (showFilterForm()) {
         <form [formGroup]="filterForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
-            <label for="filterDescription" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Description' | transloco}}</label>
+            <label for="filterDescription" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.filterByDescription' | transloco}}</label>
             <input id="filterDescription" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="filterCategory" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Category' | transloco}}</label>
+            <label for="filterCategory" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.filterByCategory' | transloco}}</label>
             <select id="filterCategory" formControlName="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="">{{'All Categories' | transloco}}</option>
+              <option value="">{{'tasks.allCategories' | transloco}}</option>
               @for (category of categoriesService.categories(); track category) {
                 <option [value]="category">{{ category }}</option>
               }
             </select>
           </div>
           <div class="mb-4">
-            <label for="filterStatus" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Status' | transloco}}</label>
+            <label for="filterStatus" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.filterByStatus' | transloco}}</label>
             <select id="filterStatus" formControlName="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="">{{'All Statuses' | transloco}}</option>
+              <option value="">{{'tasks.allStatuses' | transloco}}</option>
               @for (status of taskStatuses; track status) {
                 <option [value]="status">{{ status | transloco }}</option>
               }
             </select>
           </div>
           <div class="mb-4">
-            <label for="filterDaysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'Filter by Days of Week' | transloco}}</label>
+            <label for="filterDaysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.filterByDaysOfWeek' | transloco}}</label>
             <select id="filterDaysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               @for (day of daysOfWeek; track day) {
                 <option [value]="day">{{ day | transloco }}</option>
@@ -92,16 +92,16 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
             </select>
           </div>
           <div class="mb-4">
-            <label for="sortBy" class="block text-gray-700 text-sm font-bold mb-2">{{'Sort by' | transloco}}</label>
+            <label for="sortBy" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.sortBy' | transloco}}</label>
             <select id="sortBy" formControlName="sortBy" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-              <option value="">{{'None' | transloco}}</option>
-              <option value="description">{{'Description' | transloco}}</option>
-              <option value="category">{{'Category' | transloco}}</option>
-              <option value="specificDate">{{'Specific Date' | transloco}}</option>
+              <option value="">{{'tasks.none' | transloco}}</option>
+              <option value="description">{{'tasks.description' | transloco}}</option>
+              <option value="category">{{'tasks.category' | transloco}}</option>
+              <option value="specificDate">{{'tasks.specificDate' | transloco}}</option>
             </select>
           </div>
           <button (click)="applyFilters()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            {{'Apply' | transloco}}
+            {{'tasks.apply' | transloco}}
           </button>
         </form>
       }
@@ -123,14 +123,14 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
               }
               <p class="text-gray-700 text-base mb-2">@if (task.durationSeconds) { {{ task.durationSeconds }}s - } {{ task.status | transloco}}</p>
               @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
-                <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
+                <p class="text-gray-600 text-sm mb-2"><span>{{'tasks.days' | transloco}}</span>:
                 @for (day of task.daysOfWeek; track day; let last = $last) {
                   {{ day | transloco }} @if(!last){ <span>|</span>}
                 }
               </p>
               }
               @if (task.specificDate) {
-                <p class="text-gray-600 text-sm mb-2"><span>{{'Date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>
+                <p class="text-gray-600 text-sm mb-2"><span>{{'tasks.date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>
               }
               <div class="flex items-center mb-2">
                 @if (task.status !== TaskStatus.InProgress) {

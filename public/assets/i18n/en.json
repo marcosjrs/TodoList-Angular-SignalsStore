@@ -18,24 +18,46 @@
     "clearCompleted": "Clear Completed Tasks",
     "clearPastDated": "Clear Past Dated Tasks",
     "confirmClearCompleted": "Are you sure you want to delete all completed tasks?",
-    "confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?"
+    "confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?",
+    "confirmation": "Confirmation",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
-  "Category": "Category",
-  "None": "None",
-  "Creation Form": "Creation Form",
-  "Filter Form": "Filter Form",
-  "Description": "Description",
-  "Duration (seconds)": "Duration (secs)",
-  "Days of Week": "Days of the Week",
-  "Specific Date": "Date",
+  "tasks": {
+    "description": "Description",
+    "durationSeconds": "Duration (secs)",
+    "daysOfWeek": "Days of the Week",
+    "specificDate": "Date",
+    "days": "Days",
+    "date": "Date",
+    "completed": "Completed",
+    "creationForm": "Creation Form",
+    "filterForm": "Filter Form",
+    "filterByDescription": "Filter by Description",
+    "filterByCategory": "Filter by Category",
+    "filterByStatus": "Filter by Status",
+    "allCategories": "All Categories",
+    "allStatuses": "All Statuses",
+    "filterByDaysOfWeek": "Filter by Days of Week",
+    "allDays": "All Days",
+    "apply": "Apply",
+    "sortBy": "Sort by",
+    "taskDetails": "Task Details",
+    "status": "Status",
+    "yes": "Yes",
+    "no": "No",
+    "deleteTask": "Delete Task",
+    "category": "Category"
+  },
 
-  "Days": "Days",
-  "Date": "Date",
-  "Completed": "Completed",
 
-
-
-
+  "chrono": {
+    "alarm": "Alarm",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "setAlarm": "Set Alarm"
+  },
   "Sun": "Sun",
   "Mon": "Mon",
   "Tue": "Tue",
@@ -50,36 +72,9 @@
   "FRIDAY": "Friday",
   "SATURDAY": "Saturday",
   "SUNDAY": "Sunday",
-
   "NOT_STARTED": "Not Started",
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
-  "COMPLETED": "Completed",
-  "chrono": {
-    "alarm": "Alarm",
-    "hours": "Hours",
-    "minutes": "Minutes",
-    "seconds": "Seconds",
-    "setAlarm": "Set Alarm"
-  },
+  "COMPLETED": "Completed"
 
-
-
-  "Filter by Description": "Filter by Description",
-  "Filter by Category": "Filter by Category",
-  "Filter by Status": "Filter by Status",
-  "All Categories": "All Categories",
-  "All Statuses": "All Statuses",
-  "Filter by Days of Week": "Filter by Days of Week",
-  "All Days": "All Days",
-  "Apply": "Apply",
-  "Sort by": "Sort by",
-  "Task Details": "Task Details",
-  "Status": "Status",
-  "Yes": "Yes",
-  "No": "No",
-  "Delete Task": "Delete Task",
-  "Confirmation": "Confirmation",
-  "Confirm": "Confirm",
-  "Cancel": "Cancel"
 }

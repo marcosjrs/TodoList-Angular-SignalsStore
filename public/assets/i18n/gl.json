@@ -17,25 +17,47 @@
     "importData": "Importar",
     "clearCompleted": "Eliminar Tarefas Completadas",
     "confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
-    "confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?"
+    "confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?",
+    "confirmation": "Confirmación",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
   },
-  "Category": "Categoría",
-  "Creation Form": "Formulario de Creación",
-  "Filter Form": "Formulario de Filtro",
+  "tasks": {
+    "description": "Descrición",
+    "durationSeconds": "Duración (segs)",
+    "daysOfWeek": "Días da semana",
+    "specificDate": "Data",
+    "days": "Días",
+    "date": "Data",
+    "completed": "Completada",
+    "creationForm": "Formulario de Creación",
+    "filterForm": "Formulario de Filtro",
+    "filterByDescription": "Filtrar por Descrición",
+    "filterByCategory": "Filtrar por Categoría",
+    "filterByStatus": "Filtrar por Estado",
+    "allCategories": "Todas as Categorías",
+    "allStatuses": "Todos os Estados",
+    "filterByDaysOfWeek": "Filtrar por Días da Semana",
+    "allDays": "Todos os Días",
+    "apply": "Aplicar",
+    "sortBy": "Ordenar por",
+    "none": "Ningunha",
+    "taskDetails": "Detalles da Tarefa",
+    "status": "Estado",
+    "yes": "Si",
+    "no": "Non",
+    "deleteTask": "Eliminar Tarefa",
+    "category": "Categoría"
+  },
 
 
-  "Description": "Descrición",
-  "Duration": "Duración (segs)",
-  "Days of Week": "Días da semana",
-  "Specific Date": "Data",
-
-  "Days": "Días",
-  "Date": "Data",
-  "Completed": "Completada",
-
-
-
-
+  "chrono": {
+    "alarm": "Alarma",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "setAlarm": "Establecer Alarma"
+  },
   "Sun": "Dom",
   "Mon": "Lun",
   "Tue": "Mar",
@@ -53,31 +75,6 @@
   "NOT_STARTED": "Non iniciado",
   "IN_PROGRESS": "En progreso",
   "PAUSED": "Pausado",
-  "COMPLETED": "Completado",
-  "chrono": {
-    "alarm": "Alarma",
-    "hours": "Horas",
-    "minutes": "Minutos",
-    "seconds": "Segundos",
-    "setAlarm": "Establecer Alarma"
-  },
+  "COMPLETED": "Completado"
 
-
-  "Filter by Description": "Filtrar por Descrición",
-  "Filter by Category": "Filtrar por Categoría",
-  "Filter by Status": "Filtrar por Estado",
-  "All Categories": "Todas as Categorías",
-  "All Statuses": "Todos os Estados",
-  "Filter by Days of Week": "Filtrar por Días da Semana",
-  "All Days": "Todos os Días",
-  "Apply": "Aplicar",
-  "Sort by": "Ordenar por",
-  "None": "Ningunha",
-  "Task Details": "Detalles da Tarefa",
-  "Status": "Estado",
-  "Yes": "Si",
-  "No": "Non",
-  "Confirmation": "Confirmación",
-  "Confirm": "Confirmar",
-  "Cancel": "Cancelar"
 }
