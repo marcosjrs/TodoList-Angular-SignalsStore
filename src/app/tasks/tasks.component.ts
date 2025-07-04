@@ -136,7 +136,7 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
               <div class="flex items-center mb-2">
                 @if (task.status !== TaskStatus.InProgress) {
                   <input type="checkbox" [checked]="task.isCompleted" (change)="toggleCompleted(task.id, $event)" class="mr-2">
-                  <label>{{'Completed' | transloco}}</label>
+                  <label>{{'tasks.completed' | transloco}}</label>
                 }
               </div>
               <div class="flex justify-end space-x-2">
