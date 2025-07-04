@@ -14,8 +14,11 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
   template: `
     <div class="container mx-auto p-4">
       <div class="container-mode-toggle">
-        <div class="relative inline-block w-10">
-          <input type="checkbox" name="toggle" id="dark-mode-toggle" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-1 appearance-none cursor-pointer" [checked]="isDarkMode()" (change)="toggleDarkMode()"/>
+        <div class="relative inline-block">
+          <div>
+            <label for="dark-mode-toggle">Dark Mode </label>
+            <input type="checkbox" name="toggle" id="dark-mode-toggle" class="toggle-checkbox" [checked]="isDarkMode()" (change)="toggleDarkMode()"/>
+          </div>
         </div>
       </div>
       <h3 class="text-lg font-bold mb-2">{{'settings.selectLanguage' | transloco}}</h3>
