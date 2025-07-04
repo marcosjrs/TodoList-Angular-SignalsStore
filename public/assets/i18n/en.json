@@ -53,8 +53,9 @@
   "Seconds": "Seconds",
   "Set Alarm": "Set Alarm",
   "settings.dataManagement": "Data Management",
-  "settings.exportData": "Export Data",
-  "settings.importData": "Import Data",
+  "settings.exportData": "Export",
+  "settings.importData": "Import",
+  "settings.clearCompleted": "Clear Completed Tasks",
 
 
   "Filter by Description": "Filter by Description",

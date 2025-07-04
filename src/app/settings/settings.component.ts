@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CategoriesService } from './categories.service';
 import { TasksStore } from '../tasks/tasks.store';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -42,9 +42,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       </div>
       <div class="mb-4">
         <h3 class="text-lg font-bold mb-2">{{'settings.dataManagement' | transloco}}</h3>
-        <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">{{'settings.exportData' | transloco}}</button>
+        <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"><fa-icon [icon]="faDownload"></fa-icon> {{'settings.exportData' | transloco}}</button>
         <input type="file" (change)="importData($event)" accept=".json" class="hidden" #fileInput>
-        <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{'settings.importData' | transloco}}</button>
+        <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><fa-icon [icon]="faUpload"></fa-icon>  {{'settings.importData' | transloco}}</button>
+        <button (click)="clearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
       </div>
     </div>
   `,
@@ -56,6 +57,8 @@ export default class SettingsComponent implements OnInit {
   currentLanguage = signal(this.translocoService.getActiveLang());
   isDarkMode = signal(false);
   faTrash = faTrash;
+  faDownload = faDownload;
+  faUpload = faUpload;
 
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
@@ -145,6 +148,10 @@ export default class SettingsComponent implements OnInit {
       };
       reader.readAsText(file);
     }
+  }
+
+  clearCompletedTasks() {
+    this.tasksStore.clearCompletedTasks();
   }
 
   private updateDarkMode() {

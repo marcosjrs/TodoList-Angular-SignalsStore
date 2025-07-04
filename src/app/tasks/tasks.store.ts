@@ -87,6 +87,9 @@ export const TasksStore = signalStore(
       },
       setTasks(tasks: Task[]) {
         patchState(store, { tasks });
+      },
+      clearCompletedTasks() {
+        patchState(store, { tasks: store.tasks().filter(task => !task.isCompleted) });
       }
     };
   }),
