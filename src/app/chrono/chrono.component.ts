@@ -2,10 +2,23 @@ import { Component, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  faPlay,
+  faPause,
+  faRedo,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslocoModule,
+    FontAwesomeModule,
+  ],
   styleUrl: './chrono.component.scss',
   template: `
     <div class="app-container-center">
@@ -20,13 +33,13 @@ import { TranslocoModule } from '@ngneat/transloco';
             (click)="toggleTimer()"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {{ isRunning() ? ('Pause' | transloco) : ('Start' | transloco) }}
+            <fa-icon [icon]="isRunning() ? faPause : faPlay"></fa-icon>
           </button>
           <button
             (click)="resetTimer()"
             class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           >
-            {{ 'Reset' | transloco }}
+            <fa-icon [icon]="faRedo"></fa-icon>
           </button>
         </div>
 
@@ -34,11 +47,8 @@ import { TranslocoModule } from '@ngneat/transloco';
           (click)="toggleAlarmForm()"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm mb-4"
         >
-          {{
-            showAlarmForm()
-              ? ('Hide Alarm Form' | transloco)
-              : ('Show Alarm Form' | transloco)
-          }}
+          <fa-icon [icon]="showAlarmForm() ? faEyeSlash : faEye"></fa-icon>
+          {{ 'Alarm' | transloco }}
         </button>
 
         @if (showAlarmForm()) {
@@ -107,6 +117,13 @@ export default class ChronoComponent implements OnDestroy {
   alarmTime = signal<number | null>(null);
 
   private timer: any;
+
+  // Font Awesome icons
+  faPlay = faPlay;
+  faPause = faPause;
+  faRedo = faRedo;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
 
   alarmForm = new FormBuilder().group({
     hours: [0],

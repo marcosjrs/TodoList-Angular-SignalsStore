@@ -5,18 +5,20 @@ import { DayOfWeek, Task, TaskStatus } from './task.model';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CategoriesService } from '../settings/categories.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, TranslocoModule],
+  imports: [ReactiveFormsModule, CommonModule, TranslocoModule, FontAwesomeModule],
   template: `
     <div class="container mx-auto p-4">
       <div class="flex justify-between mb-4">
         <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
-          {{ showForm() ? ('Hide Form' | transloco) : ('Show Form' | transloco) }}
+          <fa-icon [icon]="showForm() ? faEyeSlash : faEye"></fa-icon> {{'Creation Form' | transloco}}
         </button>
         <button (click)="toggleFilterFormVisibility()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded text-sm">
-          {{ showFilterForm() ? ('Hide Filter Form' | transloco) : ('Show Filter Form' | transloco) }}
+          <fa-icon [icon]="showFilterForm() ? faEyeSlash : faEye"></fa-icon> {{'Filter Form' | transloco}}
         </button>
       </div>
 
@@ -52,7 +54,7 @@ import { CategoriesService } from '../settings/categories.service';
             <input id="specificDate" type="date" formControlName="specificDate" placeholder=" " class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
-            {{'Add Task' | transloco}}
+            <fa-icon [icon]="faPlus"></fa-icon>
           </button>
         </form>
       }
@@ -124,16 +126,16 @@ import { CategoriesService } from '../settings/categories.service';
             <div class="flex justify-end space-x-2">
               @if (task.durationSeconds !== undefined && task.durationSeconds > 0) {
                 @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
-                  <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400">{{'Start' | transloco}}</button>
+                  <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400"><fa-icon [icon]="faPlay"></fa-icon></button>
                 }
                 @if (task.status === TaskStatus.InProgress) {
-                  <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Pause' | transloco}}</button>
+                  <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faPause"></fa-icon></button>
                 }
                 @if (task.status === TaskStatus.Completed || task.status === TaskStatus.InProgress || task.status === TaskStatus.Paused) {
-                  <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Reset' | transloco}}</button>
+                  <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faRedo"></fa-icon></button>
                 }
               }
-              <button (click)="tasksStore.removeTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs">{{'Remove' | transloco}}</button>
+              <button (click)="tasksStore.removeTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faTrash"></fa-icon></button>
             </div>
           </div>
         }
@@ -148,6 +150,15 @@ export default class TasksComponent {
   readonly TaskStatus = TaskStatus;
   readonly daysOfWeek = Object.values(DayOfWeek);
   readonly taskStatuses = Object.values(TaskStatus);
+
+  // Font Awesome icons
+  faPlay = faPlay;
+  faPause = faPause;
+  faRedo = faRedo;
+  faTrash = faTrash;
+  faPlus = faPlus;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
 
   showForm = signal(false);
   showFilterForm = signal(false);

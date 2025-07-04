@@ -13,20 +13,20 @@
   },
   "Category": "Category",
   "None": "None",
-  "Hide Form": "Hide Creation Form",
-  "Show Form": "Show Creation Form",
+  "Creation Form": "Create",
+  "Filter Form": "Filtrate",
   "Description": "Description",
   "Duration (seconds)": "Duration (secs)",
   "Days of Week": "Days of the Week",
   "Specific Date": "Date",
-  "Add Task": "Add",
+
   "Days": "Days",
   "Date": "Date",
   "Completed": "Completed",
-  "Start": "Start",
-  "Pause": "Pause",
-  "Reset": "Reset",
-  "Remove": "Delete",
+
+
+
+
   "Sun": "Sun",
   "Mon": "Mon",
   "Tue": "Tue",
@@ -45,8 +45,9 @@
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
   "COMPLETED": "Completed",
-  "Show Alarm Form": "Show Alarm Form",
-  "Hide Alarm Form": "Hide Alarm Form",
+  "Alarm": "Alarm",
+
+
   "Hours": "Hours",
   "Minutes": "Minutes",
   "Seconds": "Seconds",
@@ -54,8 +55,8 @@
   "settings.dataManagement": "Data Management",
   "settings.exportData": "Export Data",
   "settings.importData": "Import Data",
-  "Hide Filter Form": "Hide Filter Form",
-  "Show Filter Form": "Show Filter Form",
+
+
   "Filter by Description": "Filter by Description",
   "Filter by Category": "Filter by Category",
   "Filter by Status": "Filter by Status",
