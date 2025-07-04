@@ -90,6 +90,18 @@ export const TasksStore = signalStore(
       },
       clearCompletedTasks() {
         patchState(store, { tasks: store.tasks().filter(task => !task.isCompleted) });
+      },
+      clearPastDatedTasks() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        patchState(store, { tasks: store.tasks().filter(task => {
+          if (task.specificDate) {
+            const taskDate = new Date(task.specificDate);
+            taskDate.setHours(0, 0, 0, 0);
+            return taskDate >= today;
+          }
+          return true;
+        })});
       }
     };
   }),

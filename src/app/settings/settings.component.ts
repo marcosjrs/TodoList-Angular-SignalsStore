@@ -45,7 +45,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"><fa-icon [icon]="faDownload"></fa-icon> {{'settings.exportData' | transloco}}</button>
         <input type="file" (change)="importData($event)" accept=".json" class="hidden" #fileInput>
         <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><fa-icon [icon]="faUpload"></fa-icon>  {{'settings.importData' | transloco}}</button>
-        <button (click)="clearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
+        <button (click)="clearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-6"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
+        <button (click)="clearPastDatedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-6"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearPastDated' | transloco}}</button>
       </div>
     </div>
   `,
@@ -152,6 +153,10 @@ export default class SettingsComponent implements OnInit {
 
   clearCompletedTasks() {
     this.tasksStore.clearCompletedTasks();
+  }
+
+  clearPastDatedTasks() {
+    this.tasksStore.clearPastDatedTasks();
   }
 
   private updateDarkMode() {

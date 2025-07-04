@@ -57,6 +57,7 @@
   "settings.exportData": "Exportar",
   "settings.importData": "Importar",
   "settings.clearCompleted": "Eliminar Tareas Completadas",
+  "settings.clearPastDated": "Eliminar Tareas con Fecha Pasada",
 
 
   "Filter by Description": "Filtrar por Descripción",
