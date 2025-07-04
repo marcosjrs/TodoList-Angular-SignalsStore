@@ -1,5 +1,5 @@
-import { computed, inject } from '@angular/core';
-import { patchState, signalStore, withState, withMethods, withComputed } from '@ngrx/signals';
+import { computed, inject, effect } from '@angular/core';
+import { patchState, signalStore, withState, withMethods, withComputed, withHooks } from '@ngrx/signals';
 import { Task, TaskStatus } from './task.model';
 import { TasksTimerService } from './tasks-timer.service';
 
@@ -7,13 +7,16 @@ export interface TasksState {
   tasks: Task[];
 }
 
-export const initialState: TasksState = {
-  tasks: [],
+const getInitialState = (): TasksState => {
+  const storedTasks = localStorage.getItem('tasks');
+  return {
+    tasks: storedTasks ? JSON.parse(storedTasks) : [],
+  };
 };
 
 export const TasksStore = signalStore(
   { providedIn: 'root' },
-  withState(initialState),
+  withState(getInitialState()),
   withComputed(({ tasks }) => ({
     completedTasks: computed(() => tasks().filter((task) => task.isCompleted)),
     uncompletedTasks: computed(() => tasks().filter((task) => !task.isCompleted)),
@@ -83,5 +86,12 @@ export const TasksStore = signalStore(
         });
       },
     };
-  })
+  }),
+  withHooks({
+    onInit(store) {
+      effect(() => {
+        localStorage.setItem('tasks', JSON.stringify(store.tasks()));
+      });
+    },
+  }),
 );
