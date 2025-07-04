@@ -47,7 +47,8 @@
     "yes": "Si",
     "no": "Non",
     "deleteTask": "Eliminar Tarefa",
-    "category": "Categoría"
+    "category": "Categoría",
+    "add": "Engadir"
   },
   "chrono": {
     "alarm": "Alarma",
@@ -74,5 +75,4 @@
   "IN_PROGRESS": "En progreso",
   "PAUSED": "Pausado",
   "COMPLETED": "Completado"
-
 }

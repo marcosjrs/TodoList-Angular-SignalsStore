@@ -48,7 +48,8 @@
     "yes": "Sí",
     "no": "No",
     "deleteTask": "Eliminar Tarea",
-    "category": "Categoría"
+    "category": "Categoría",
+    "add": "Añadir"
   },
   "chrono": {
     "alarm": "Alarma",
@@ -75,5 +76,4 @@
   "IN_PROGRESS": "En Progreso",
   "PAUSED": "Pausado",
   "COMPLETED": "Completado"
-
 }

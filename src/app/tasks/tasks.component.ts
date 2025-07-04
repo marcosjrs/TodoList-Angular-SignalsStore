@@ -54,7 +54,7 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
             <input id="specificDate" type="date" formControlName="specificDate" placeholder=" " class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
-            <fa-icon [icon]="faPlus"></fa-icon>
+            <fa-icon [icon]="faPlus"></fa-icon> {{'tasks.add' | transloco}}
           </button>
         </form>
       }
@@ -130,7 +130,7 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
               </p>
               }
               @if (task.specificDate) {
-                <p class="text-gray-600 text-sm mb-2"><span>{{'tasks.date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>
+                <p class="text-gray-600 text-sm mb-2"><span>{{'tasks.date' | transloco}}</span>: {{ task.specificDate | date:'dd/MM/yyyy' }}</p>
               }
               <div class="flex items-center mb-2">
                 @if (task.status !== TaskStatus.InProgress) {

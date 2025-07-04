@@ -47,7 +47,8 @@
     "yes": "Yes",
     "no": "No",
     "deleteTask": "Delete Task",
-    "category": "Category"
+    "category": "Category",
+    "add": "Add"
   },
   "chrono": {
     "alarm": "Alarm",
@@ -74,5 +75,4 @@
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
   "COMPLETED": "Completed"
-
 }
