@@ -3,7 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TasksStore } from './tasks.store';
 import { DayOfWeek, Task, TaskStatus } from './task.model';
 import { CommonModule } from '@angular/common';
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoModule } from '@ngneat/transloco';
+import { CategoriesService } from '../settings/categories.service';
 
 @Component({
   standalone: true,
@@ -21,8 +22,17 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
             <input id="description" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration' | transloco}} *</label>
+            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration (seconds)' | transloco}} *</label>
             <input id="durationSeconds" formControlName="durationSeconds" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{'Category' | transloco}}</label>
+            <select id="category" formControlName="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="">{{'None' | transloco}}</option>
+              @for (category of categoriesService.categories(); track category) {
+                <option [value]="category">{{ category }}</option>
+              }
+            </select>
           </div>
           <div class="mb-4">
             <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'Days of Week' | transloco}}</label>
@@ -46,6 +56,11 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         @for (task of tasksStore.tasks(); track task.id) {
           <div class="bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
             <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
+            @if (task.category) {
+              <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
+                {{ task.category }}
+              </span>
+            }
             <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status }}</p>
             @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
               <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
@@ -84,6 +99,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 export default class TasksComponent {
   private readonly fb = inject(FormBuilder);
   readonly tasksStore = inject(TasksStore);
+  readonly categoriesService = inject(CategoriesService);
   readonly TaskStatus = TaskStatus;
   readonly daysOfWeek = Object.values(DayOfWeek);
 
@@ -94,11 +110,12 @@ export default class TasksComponent {
     durationSeconds: [0, [Validators.required, Validators.min(1)]],
     daysOfWeek: [[] as DayOfWeek[]],
     specificDate: [''],
+    category: [''],
   });
 
   addTask() {
     if (this.taskForm.valid) {
-      const { description, durationSeconds, daysOfWeek, specificDate } = this.taskForm.value;
+      const { description, durationSeconds, daysOfWeek, specificDate, category } = this.taskForm.value;
       const newTask: Task = {
         id: Math.random().toString(36).substring(2),
         description: description!,
@@ -108,6 +125,7 @@ export default class TasksComponent {
         status: TaskStatus.NotStarted,
         daysOfWeek: daysOfWeek || undefined,
         specificDate: specificDate ? new Date(specificDate) : undefined,
+        category: category || undefined,
       };
       this.tasksStore.addTask(newTask);
       this.taskForm.reset({
@@ -115,6 +133,7 @@ export default class TasksComponent {
         durationSeconds: 0,
         daysOfWeek: [],
         specificDate: '',
+        category: '',
       });
       this.showForm.set(false); // Hide form after adding task
     }

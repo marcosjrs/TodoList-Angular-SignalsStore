@@ -11,6 +11,8 @@
     "addCategory": "+",
     "remove": "Remove"
   },
+  "Category": "Category",
+  "None": "None",
   "Hide Form": "Hide Creation Form",
   "Show Form": "Show Creation Form",
   "Description": "Description",
@@ -38,5 +40,9 @@
   "THURSDAY": "Thursday",
   "FRIDAY": "Friday",
   "SATURDAY": "Saturday",
-  "SUNDAY": "Sunday"
+  "SUNDAY": "Sunday",
+  "NOT_STARTED": "Not Started",
+  "IN_PROGRESS": "In Progress",
+  "PAUSED": "Paused",
+  "COMPLETED": "Completed"
 }

@@ -7,6 +7,7 @@ export interface Task {
   status: TaskStatus;
   daysOfWeek?: DayOfWeek[];
   specificDate?: Date;
+  category?: string;
 }
 
 export enum DayOfWeek {

@@ -11,6 +11,8 @@
     "addCategory": "+",
     "remove": "Eliminar"
   },
+  "Category": "Categoría",
+  "None": "Ningunha",
   "Hide Form": "Pechar formulario de creación",
   "Show Form": "Amosar formulario de creación",
   "Description": "Descrición",
@@ -38,5 +40,9 @@
   "THURSDAY": "Xoves",
   "FRIDAY": "Venres",
   "SATURDAY": "Sábado",
-  "SUNDAY": "Domingo"
+  "SUNDAY": "Domingo",
+  "NOT_STARTED": "Non iniciado",
+  "IN_PROGRESS": "En progreso",
+  "PAUSED": "Pausado",
+  "COMPLETED": "Completado"
 }
