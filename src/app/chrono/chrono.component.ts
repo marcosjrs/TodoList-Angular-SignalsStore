@@ -25,7 +25,7 @@ import {
       <div
         class="container mx-auto p-4 text-center flex flex-col items-center justify-center h-full"
       >
-        <div class="text-6xl font-mono mb-4">
+        <div class="text-6xl font-mono mb-4" [style]="{ 'color': showAlarmMessage() ? 'red' : 'black' }">
           {{ formatTime(elapsedTime()) }}
         </div>
         <div class="space-x-2 mb-4">
@@ -114,6 +114,7 @@ export default class ChronoComponent implements OnDestroy {
   elapsedTime = signal(0);
   isRunning = signal(false);
   showAlarmForm = signal(false);
+  showAlarmMessage = signal(false);
   alarmTime = signal<number | null>(null);
 
   private timer: any;
@@ -130,6 +131,7 @@ export default class ChronoComponent implements OnDestroy {
     minutes: [0],
     seconds: [0],
   });
+  intervalPlaySound?: number;
 
   toggleTimer() {
     this.isRunning.update((running) => !running);
@@ -165,7 +167,16 @@ export default class ChronoComponent implements OnDestroy {
 
   checkAlarm() {
     if (this.alarmTime() !== null && this.elapsedTime() >= this.alarmTime()!) {
-      alert('Alarm!');
+      this.playAlarmSound();
+      this.showAlarmMessage.set(true);
+      this.intervalPlaySound = setInterval(() => {
+        if (this.elapsedTime() && this.isRunning()) {
+          this.playAlarmSound();
+        } else {
+          this.showAlarmMessage.set(false);
+          clearInterval(this.intervalPlaySound);
+        }
+      }, 3000);
       this.alarmTime.set(null); // Reset alarm after it goes off
     }
   }
@@ -180,6 +191,30 @@ export default class ChronoComponent implements OnDestroy {
 
   private pad(num: number) {
     return num.toString().padStart(2, '0');
+  }
+
+  private async playAlarmSound(): Promise<void> {
+    try {
+      const audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      // Configurar el sonido
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Nota LA (440Hz)
+
+      // Configurar el volumen
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+      // Reproducir el sonido durante 1 segundo
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 1);
+    } catch (error) {
+      console.error('Error al reproducir el sonido de alarma:', error);
+    }
   }
 
   ngOnDestroy() {
