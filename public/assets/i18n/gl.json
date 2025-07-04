@@ -44,5 +44,11 @@
   "NOT_STARTED": "Non iniciado",
   "IN_PROGRESS": "En progreso",
   "PAUSED": "Pausado",
-  "COMPLETED": "Completado"
+  "COMPLETED": "Completado",
+  "Show Alarm Form": "Amosar Formulario de Alarma",
+  "Hide Alarm Form": "Ocultar Formulario de Alarma",
+  "Hours": "Horas",
+  "Minutes": "Minutos",
+  "Seconds": "Segundos",
+  "Set Alarm": "Establecer Alarma"
 }
