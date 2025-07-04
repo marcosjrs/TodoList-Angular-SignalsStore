@@ -55,13 +55,13 @@
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
   "COMPLETED": "Completed",
-  "Alarm": "Alarm",
-
-
-  "Hours": "Hours",
-  "Minutes": "Minutes",
-  "Seconds": "Seconds",
-  "Set Alarm": "Set Alarm",
+  "chrono": {
+    "alarm": "Alarm",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "setAlarm": "Set Alarm"
+  },
 
 
 

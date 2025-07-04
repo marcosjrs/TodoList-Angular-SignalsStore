@@ -48,7 +48,7 @@ import {
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm mb-4"
         >
           <fa-icon [icon]="showAlarmForm() ? faEyeSlash : faEye"></fa-icon>
-          {{ 'Alarm' | transloco }}
+          {{ 'chrono.alarm' | transloco }}
         </button>
 
         @if (showAlarmForm()) {
@@ -62,7 +62,7 @@ import {
               <label
                 for="hours"
                 class="block text-gray-700 text-sm font-bold mb-2"
-                >{{ 'Hours' | transloco }}</label
+                >{{ 'chrono.hours' | transloco }}</label
               >
               <input
                 id="hours"
@@ -75,7 +75,7 @@ import {
               <label
                 for="minutes"
                 class="block text-gray-700 text-sm font-bold mb-2"
-                >{{ 'Minutes' | transloco }}</label
+                >{{ 'chrono.minutes' | transloco }}</label
               >
               <input
                 id="minutes"
@@ -88,7 +88,7 @@ import {
               <label
                 for="seconds"
                 class="block text-gray-700 text-sm font-bold mb-2"
-                >{{ 'Seconds' | transloco }}</label
+                >{{ 'chrono.seconds' | transloco }}</label
               >
               <input
                 id="seconds"
@@ -102,7 +102,7 @@ import {
             type="submit"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {{ 'Set Alarm' | transloco }}
+            {{ 'chrono.setAlarm' | transloco }}
           </button>
         </form>
         }

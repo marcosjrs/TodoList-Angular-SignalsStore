@@ -54,13 +54,13 @@
   "IN_PROGRESS": "En progreso",
   "PAUSED": "Pausado",
   "COMPLETED": "Completado",
-  "Alarm": "Alarma",
-
-
-  "Hours": "Horas",
-  "Minutes": "Minutos",
-  "Seconds": "Segundos",
-  "Set Alarm": "Establecer Alarma",
+  "chrono": {
+    "alarm": "Alarma",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "setAlarm": "Establecer Alarma"
+  },
 
 
   "Filter by Description": "Filtrar por Descrición",
