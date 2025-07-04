@@ -246,9 +246,21 @@ export default class TasksComponent {
 
   toggleCompleted(taskId: string, event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    this.tasksStore.updateTask(taskId, {
-      isCompleted: isChecked,
-      status: isChecked ? TaskStatus.Completed : TaskStatus.NotStarted,
-    });
+    const currentTask = this.tasksStore.tasks().find(task => task.id === taskId);
+
+    if (!isChecked && currentTask && currentTask.initialDurationSeconds !== undefined && currentTask.initialDurationSeconds > 0) {
+      // If unchecked and it was a timed task, reset time and status
+      this.tasksStore.updateTask(taskId, {
+        isCompleted: isChecked,
+        durationSeconds: currentTask.initialDurationSeconds,
+        status: TaskStatus.NotStarted,
+      });
+    } else {
+      // Otherwise, just update completion status
+      this.tasksStore.updateTask(taskId, {
+        isCompleted: isChecked,
+        status: isChecked ? TaskStatus.Completed : TaskStatus.NotStarted,
+      });
+    }
   }
 }
