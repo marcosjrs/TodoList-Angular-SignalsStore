@@ -9,7 +9,14 @@
     "darkMode": "Dark Mode",
     "categories": "Categories",
     "addCategory": "+",
-    "remove": "Remove"
+    "remove": "Remove",
+    "dataManagement": "Data Management",
+    "exportData": "Export",
+    "importData": "Import",
+    "clearCompleted": "Clear Completed Tasks",
+    "clearPastDated": "Clear Past Dated Tasks",
+    "confirmClearCompleted": "Are you sure you want to delete all completed tasks?",
+    "confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?"
   },
   "Category": "Category",
   "None": "None",
@@ -52,11 +59,7 @@
   "Minutes": "Minutes",
   "Seconds": "Seconds",
   "Set Alarm": "Set Alarm",
-  "settings.dataManagement": "Data Management",
-  "settings.exportData": "Export",
-  "settings.importData": "Import",
-  "settings.clearCompleted": "Clear Completed Tasks",
-  "settings.clearPastDated": "Clear Past Dated Tasks",
+
 
 
   "Filter by Description": "Filter by Description",
@@ -75,7 +78,5 @@
   "Delete Task": "Delete Task",
   "Confirmation": "Confirmation",
   "Confirm": "Confirm",
-  "Cancel": "Cancel",
-  "settings.confirmClearCompleted": "Are you sure you want to delete all completed tasks?",
-  "settings.confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?"
+  "Cancel": "Cancel"
 }

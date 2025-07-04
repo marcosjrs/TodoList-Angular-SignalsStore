@@ -9,7 +9,13 @@
     "darkMode": "Modo Escuro",
     "categories": "Categorías",
     "addCategory": "+",
-    "remove": "Eliminar"
+    "remove": "Eliminar",
+    "dataManagement": "Xestión de Datos",
+    "exportData": "Exportar",
+    "importData": "Importar",
+    "clearCompleted": "Eliminar Tarefas Completadas",
+    "confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
+    "confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?"
   },
   "Category": "Categoría",
   "Creation Form": "Formulario de Creación",
@@ -53,10 +59,6 @@
   "Minutes": "Minutos",
   "Seconds": "Segundos",
   "Set Alarm": "Establecer Alarma",
-  "settings.dataManagement": "Xestión de Datos",
-  "settings.exportData": "Exportar",
-  "settings.importData": "Importar",
-  "settings.clearCompleted": "Eliminar Tarefas Completadas",
 
 
   "Filter by Description": "Filtrar por Descrición",
@@ -75,7 +77,5 @@
   "No": "Non",
   "Confirmation": "Confirmación",
   "Confirm": "Confirmar",
-  "Cancel": "Cancelar",
-  "settings.confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
-  "settings.confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?"
+  "Cancel": "Cancelar"
 }
