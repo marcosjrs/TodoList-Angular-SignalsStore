@@ -17,13 +17,13 @@ import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.
       </div>
 
       <div class="grid grid-cols-7 gap-2 text-center font-bold mb-2">
-        <div>{{'Sun' | transloco}}</div>
         <div>{{'Mon' | transloco}}</div>
         <div>{{'Tue' | transloco}}</div>
         <div>{{'Wed' | transloco}}</div>
         <div>{{'Thu' | transloco}}</div>
         <div>{{'Fri' | transloco}}</div>
         <div>{{'Sat' | transloco}}</div>
+        <div>{{'Sun' | transloco}}</div>
       </div>
 
       <div class="grid grid-cols-7 gap-2">
@@ -63,7 +63,7 @@ export default class CalendarComponent {
     const lastDayOfMonth = new Date(year, month + 1, 0);
     const numDaysInMonth = lastDayOfMonth.getDate();
 
-    const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday, etc.
+    const firstDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7; // 0 for Monday, 1 for Tuesday, etc.
 
     const days = [];
 
