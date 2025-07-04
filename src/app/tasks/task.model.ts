@@ -8,6 +8,7 @@ export interface Task {
   daysOfWeek?: DayOfWeek[];
   specificDate?: Date;
   category?: string;
+  isMinimized?: boolean;
 }
 
 export enum DayOfWeek {

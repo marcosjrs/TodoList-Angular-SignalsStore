@@ -6,14 +6,14 @@ import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@ngneat/transloco';
 import { CategoriesService } from '../settings/categories.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, TranslocoModule, FontAwesomeModule],
   template: `
     <div class="container mx-auto p-4">
-      <div class="flex justify-between mb-4">
+      <div id="filtrosYOrdenacion" class="flex justify-between mb-4">
         <button (click)="toggleFormVisibility()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm">
           <fa-icon [icon]="showForm() ? faEyeSlash : faEye"></fa-icon> {{'Creation Form' | transloco}}
         </button>
@@ -108,44 +108,51 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash } from '@fo
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @for (task of filteredTasks(); track task.id) {
-          <div class="bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
-            <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
-            @if (task.category) {
-              <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
-                {{ task.category }}
-              </span>
-            }
-            <p class="text-gray-700 text-base mb-2">@if (task.durationSeconds) { {{ task.durationSeconds }}s - } {{ task.status | transloco}}</p>
-            @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
-              <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
-              @for (day of task.daysOfWeek; track day; let last = $last) {
-                {{ day | transloco }} @if(!last){ <span>|</span>}
-              }
-            </p>
-            }
-            @if (task.specificDate) {
-              <p class="text-gray-600 text-sm mb-2"><span>{{'Date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>
-            }
-            <div class="flex items-center mb-2">
-              @if (task.status !== TaskStatus.InProgress) {
-                <input type="checkbox" [checked]="task.isCompleted" (change)="toggleCompleted(task.id, $event)" class="mr-2">
-                <label>{{'Completed' | transloco}}</label>
-              }
+          <div class="card bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
+            <div class="flex justify-between items-start">
+              <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
+              <button (click)="toggleMinimize(task.id)" class="text-gray-500 hover:text-gray-700 text-sm">
+                <fa-icon [icon]="task.isMinimized ? faChevronDown : faChevronUp"></fa-icon>
+              </button>
             </div>
-            <div class="flex justify-end space-x-2">
-              @if (task.durationSeconds !== undefined && task.durationSeconds > 0) {
-                @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
-                  <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400"><fa-icon [icon]="faPlay"></fa-icon></button>
-                }
-                @if (task.status === TaskStatus.InProgress) {
-                  <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faPause"></fa-icon></button>
-                }
-                @if (task.status === TaskStatus.Completed || task.status === TaskStatus.InProgress || task.status === TaskStatus.Paused) {
-                  <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faRedo"></fa-icon></button>
-                }
+            @if (!task.isMinimized) {
+              @if (task.category) {
+                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
+                  {{ task.category }}
+                </span>
               }
-              <button (click)="tasksStore.removeTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faTrash"></fa-icon></button>
-            </div>
+              <p class="text-gray-700 text-base mb-2">@if (task.durationSeconds) { {{ task.durationSeconds }}s - } {{ task.status | transloco}}</p>
+              @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
+                <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
+                @for (day of task.daysOfWeek; track day; let last = $last) {
+                  {{ day | transloco }} @if(!last){ <span>|</span>}
+                }
+              </p>
+              }
+              @if (task.specificDate) {
+                <p class="text-gray-600 text-sm mb-2"><span>{{'Date' | transloco}}</span>: {{ task.specificDate | date:'shortDate' }}</p>
+              }
+              <div class="flex items-center mb-2">
+                @if (task.status !== TaskStatus.InProgress) {
+                  <input type="checkbox" [checked]="task.isCompleted" (change)="toggleCompleted(task.id, $event)" class="mr-2">
+                  <label>{{'Completed' | transloco}}</label>
+                }
+              </div>
+              <div class="flex justify-end space-x-2">
+                @if (task.durationSeconds !== undefined && task.durationSeconds > 0) {
+                  @if (task.status === TaskStatus.NotStarted || task.status === TaskStatus.Paused) {
+                    <button (click)="tasksStore.startTask(task.id)" [disabled]="task.isCompleted" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs disabled:bg-gray-400"><fa-icon [icon]="faPlay"></fa-icon></button>
+                  }
+                  @if (task.status === TaskStatus.InProgress) {
+                    <button (click)="tasksStore.pauseTask(task.id)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faPause"></fa-icon></button>
+                  }
+                  @if (task.status === TaskStatus.Completed || task.status === TaskStatus.InProgress || task.status === TaskStatus.Paused) {
+                    <button (click)="tasksStore.resetTask(task.id)" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faRedo"></fa-icon></button>
+                  }
+                }
+                <button (click)="tasksStore.removeTask(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs"><fa-icon [icon]="faTrash"></fa-icon></button>
+              </div>
+            }
           </div>
         }
       </div>
@@ -168,6 +175,8 @@ export default class TasksComponent {
   faPlus = faPlus;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
 
   showForm = signal(false);
   showFilterForm = signal(false);
@@ -281,6 +290,7 @@ export default class TasksComponent {
         daysOfWeek: daysOfWeek || undefined,
         specificDate: specificDate ? new Date(specificDate) : undefined,
         category: category || undefined,
+        isMinimized: false, // Initialize as not minimized
       };
       this.tasksStore.addTask(newTask);
       this.taskForm.reset({
@@ -300,6 +310,13 @@ export default class TasksComponent {
 
   toggleFilterFormVisibility() {
     this.showFilterForm.update((value) => !value);
+  }
+
+  toggleMinimize(taskId: string) {
+    const currentTask = this.tasksStore.tasks().find(task => task.id === taskId);
+    if (currentTask) {
+      this.tasksStore.updateTask(taskId, { isMinimized: !currentTask.isMinimized });
+    }
   }
 
   toggleCompleted(taskId: string, event: Event) {
@@ -322,3 +339,4 @@ export default class TasksComponent {
     }
   }
 }
+
