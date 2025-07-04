@@ -26,6 +26,8 @@
     "@angular/forms": "^20.0.0",
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
+    "@ngneat/transloco": "^6.0.4",
+    "@ngneat/transloco-persist-lang": "^5.0.0",
     "@ngrx/signals": "^20.0.0-beta.0",
     "@tailwindcss/postcss": "^4.1.11",
     "postcss": "^8.5.6",

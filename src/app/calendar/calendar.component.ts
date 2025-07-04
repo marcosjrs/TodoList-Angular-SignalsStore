@@ -2,26 +2,27 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TasksStore } from '../tasks/tasks.store';
 import { Task } from '../tasks/task.model';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslocoModule],
   template: `
     <div class="container mx-auto p-4">
       <div class="flex justify-between items-center mb-4">
-        <button (click)="previousMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">&lt; Prev</button>
+        <button (click)="previousMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">&lt;</button>
         <h2 class="text-xl font-bold">{{ currentMonthYear() }}</h2>
-        <button (click)="nextMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next &gt;</button>
+        <button (click)="nextMonth()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">&gt;</button>
       </div>
 
       <div class="grid grid-cols-7 gap-2 text-center font-bold mb-2">
-        <div>Sun</div>
-        <div>Mon</div>
-        <div>Tue</div>
-        <div>Wed</div>
-        <div>Thu</div>
-        <div>Fri</div>
-        <div>Sat</div>
+        <div>{{'Sun' | transloco}}</div>
+        <div>{{'Mon' | transloco}}</div>
+        <div>{{'Tue' | transloco}}</div>
+        <div>{{'Wed' | transloco}}</div>
+        <div>{{'Thu' | transloco}}</div>
+        <div>{{'Fri' | transloco}}</div>
+        <div>{{'Sat' | transloco}}</div>
       </div>
 
       <div class="grid grid-cols-7 gap-2">

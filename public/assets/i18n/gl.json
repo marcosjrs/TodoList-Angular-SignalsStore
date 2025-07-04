@@ -1,0 +1,31 @@
+{
+  "tasksLink": "Tareas",
+  "calendarLink": "Calendario",
+  "chronoLink": "Chrono",
+  "settingsLink": "Configuración",
+  "settings": {
+    "title":"Configuración",
+    "selectLanguage": "Selecionar Idioma"
+  },
+  "Hide Form": "Cerrar Formulario de Creación",
+  "Show Form": "Mostrar Formulario de Creación",
+  "Description": "Descripción",
+  "Duration": "Duración (segs)",
+  "Days of Week": "Días de la Semana",
+  "Specific Date": "Fecha",
+  "Add Task": "Añadir",
+  "Days": "Días",
+  "Date": "Fecha",
+  "Completed": "Completada",
+  "Start": "Start",
+  "Pause": "Pause",
+  "Reset": "Reset",
+  "Remove": "Borrar",
+  "Sun": "Dom",
+  "Mon": "Lun",
+  "Tue": "Mar",
+  "Wed": "Mié",
+  "Thu": "Jue",
+  "Fri": "Vie",
+  "Sat": "Sáb"
+}
