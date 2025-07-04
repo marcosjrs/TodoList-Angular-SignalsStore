@@ -16,6 +16,7 @@
     "exportData": "Exportar",
     "importData": "Importar",
     "clearCompleted": "Eliminar Tarefas Completadas",
+    "clearPastDated": "Eliminar Tarefas de Datas Pasadas",
     "confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
     "confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?",
     "clearAllData": "Eliminar Todos os Datos",
