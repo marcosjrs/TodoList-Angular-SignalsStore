@@ -17,11 +17,11 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
       @if (showForm()) {
         <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
-            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{'Description' | transloco}}</label>
+            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{'Description' | transloco}} *</label>
             <input id="description" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
-            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration' | transloco}}</label>
+            <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration' | transloco}} *</label>
             <input id="durationSeconds" formControlName="durationSeconds" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
@@ -34,7 +34,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
           </div>
           <div class="mb-4">
             <label for="specificDate" class="block text-gray-700 text-sm font-bold mb-2">{{'Specific Date' | transloco}}</label>
-            <input id="specificDate" type="date" formControlName="specificDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input id="specificDate" type="date" formControlName="specificDate" placeholder=" " class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <button type="submit" [disabled]="taskForm.invalid" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400">
             {{'Add Task' | transloco}}
