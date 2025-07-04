@@ -61,7 +61,7 @@ import { CategoriesService } from '../settings/categories.service';
                 {{ task.category }}
               </span>
             }
-            <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status }}</p>
+            <p class="text-gray-700 text-base mb-2">{{ task.durationSeconds }}s - {{ task.status | transloco}}</p>
             @if (task.daysOfWeek && task.daysOfWeek.length > 0) {
               <p class="text-gray-600 text-sm mb-2"><span>{{'Days' | transloco}}</span>:
               @for (day of task.daysOfWeek; track day; let last = $last) {
