@@ -18,17 +18,17 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
         <form [formGroup]="taskForm" (ngSubmit)="addTask()" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
             <label for="description" class="block text-gray-700 text-sm font-bold mb-2">{{'Description' | transloco}}</label>
-            <input id="description" formControlName="description" placeholder="Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input id="description" formControlName="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
             <label for="durationSeconds" class="block text-gray-700 text-sm font-bold mb-2">{{'Duration' | transloco}}</label>
-            <input id="durationSeconds" formControlName="durationSeconds" placeholder="Duration (seconds)" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input id="durationSeconds" formControlName="durationSeconds" type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           </div>
           <div class="mb-4">
             <label for="daysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'Days of Week' | transloco}}</label>
             <select id="daysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
               @for (day of daysOfWeek; track day) {
-                <option [value]="day">{{ day }}</option>
+                <option [value]="day">{{ day | transloco }}</option>
               }
             </select>
           </div>

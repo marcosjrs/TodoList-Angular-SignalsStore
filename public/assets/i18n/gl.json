@@ -5,7 +5,8 @@
   "settingsLink": "Configuración",
   "settings": {
     "title": "Configuración",
-    "selectLanguage": "Seleccionar idioma"
+    "selectLanguage": "Seleccionar idioma",
+    "darkMode": "Modo Escuro"
   },
   "Hide Form": "Pechar formulario de creación",
   "Show Form": "Amosar formulario de creación",

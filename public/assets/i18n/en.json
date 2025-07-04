@@ -5,7 +5,8 @@
   "settingsLink": "Settings",
   "settings": {
     "title": "Settings",
-    "selectLanguage": "Select Language"
+    "selectLanguage": "Select Language",
+    "darkMode": "Dark Mode"
   },
   "Hide Form": "Hide Creation Form",
   "Show Form": "Show Creation Form",

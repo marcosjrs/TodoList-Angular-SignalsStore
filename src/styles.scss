@@ -3,3 +3,23 @@
 .active-link {
   @apply text-blue-400 font-bold;
 }
+
+.dark {
+  @apply bg-gray-800 text-white;
+
+  .bg-white {
+    @apply bg-gray-900;
+  }
+
+  .text-gray-700 {
+    @apply text-gray-300;
+  }
+
+  .bg-gray-300 {
+    @apply bg-gray-600;
+  }
+
+  input, select {
+    @apply bg-gray-700 text-white border-gray-600;
+  }
+}
