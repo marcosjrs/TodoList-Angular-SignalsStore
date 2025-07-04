@@ -18,6 +18,9 @@
     "clearCompleted": "Eliminar Tarefas Completadas",
     "confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
     "confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?",
+    "clearAllData": "Eliminar Todos os Datos",
+    "confirmClearAllData": "¿Estás seguro de que queres eliminar todos os datos? Esta acción non se pode desfacer.",
+    "allDataCleared": "Todos os datos foron eliminados correctamente.",
     "confirmation": "Confirmación",
     "confirm": "Confirmar",
     "cancel": "Cancelar"

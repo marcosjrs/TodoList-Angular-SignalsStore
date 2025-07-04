@@ -51,6 +51,7 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
         <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><fa-icon [icon]="faUpload"></fa-icon>  {{'settings.importData' | transloco}}</button>
         <button (click)="confirmClearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
         <button (click)="confirmClearPastDatedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearPastDated' | transloco}}</button>
+        <button (click)="confirmClearAllData()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearAllData' | transloco}}</button>
       </div>
     </div>
 
@@ -71,7 +72,7 @@ export default class SettingsComponent implements OnInit {
 
   showConfirmationPopup = signal(false);
   confirmationMessage = signal('');
-  actionToConfirm: 'clearCompleted' | 'clearPastDated' | null = null;
+  actionToConfirm: 'clearCompleted' | 'clearPastDated' | 'clearAllData' | null = null;
 
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
@@ -175,6 +176,12 @@ export default class SettingsComponent implements OnInit {
     this.showConfirmationPopup.set(true);
   }
 
+  confirmClearAllData() {
+    this.confirmationMessage.set('settings.confirmClearAllData');
+    this.actionToConfirm = 'clearAllData';
+    this.showConfirmationPopup.set(true);
+  }
+
   handleConfirmation(confirmed: boolean) {
     this.showConfirmationPopup.set(false);
     if (confirmed && this.actionToConfirm) {
@@ -182,6 +189,13 @@ export default class SettingsComponent implements OnInit {
         this.tasksStore.clearCompletedTasks();
       } else if (this.actionToConfirm === 'clearPastDated') {
         this.tasksStore.clearPastDatedTasks();
+      } else if (this.actionToConfirm === 'clearAllData') {
+        localStorage.clear();
+        this.tasksStore.setTasks([]);
+        this.categoriesService.setCategories([]);
+        this.isDarkMode.set(false);
+        this.translocoService.setActiveLang('en');
+        alert(this.translocoService.translate('settings.allDataCleared'));
       }
     }
     this.actionToConfirm = null;

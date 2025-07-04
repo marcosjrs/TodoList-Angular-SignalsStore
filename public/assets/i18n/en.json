@@ -19,6 +19,9 @@
     "clearPastDated": "Clear Past Dated Tasks",
     "confirmClearCompleted": "Are you sure you want to delete all completed tasks?",
     "confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?",
+    "clearAllData": "Clear All Data",
+    "confirmClearAllData": "Are you sure you want to delete all data? This action cannot be undone.",
+    "allDataCleared": "All data has been cleared successfully.",
     "confirmation": "Confirmation",
     "confirm": "Confirm",
     "cancel": "Cancel"
