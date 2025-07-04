@@ -50,5 +50,8 @@
   "Hours": "Hours",
   "Minutes": "Minutes",
   "Seconds": "Seconds",
-  "Set Alarm": "Set Alarm"
+  "Set Alarm": "Set Alarm",
+  "settings.dataManagement": "Data Management",
+  "settings.exportData": "Export Data",
+  "settings.importData": "Import Data"
 }

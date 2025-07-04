@@ -2,15 +2,21 @@ import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { CategoriesService } from './categories.service';
+import { TasksStore } from '../tasks/tasks.store';
 
 @Component({
   standalone: true,
   imports: [CommonModule, TranslocoModule],
+  styleUrl: './settings.component.scss',
   template: `
     <div class="container mx-auto p-4">
-      <h2 class="text-xl font-bold mb-4" transloco="settings.title">Settings</h2>
+      <div class="container-mode-toggle">
+        <div class="relative inline-block w-10">
+          <input type="checkbox" name="toggle" id="dark-mode-toggle" class="toggle-checkbox absolute block w-4 h-4 rounded-full bg-white border-1 appearance-none cursor-pointer" [checked]="isDarkMode()" (change)="toggleDarkMode()"/>
+        </div>
+      </div>
+      <h3 class="text-lg font-bold mb-2">{{'settings.selectLanguage' | transloco}}</h3>
       <div class="mb-4">
-        <label for="language-select" class="block text-gray-700 text-sm font-bold mb-2">{{'settings.selectLanguage' | transloco}}</label>
         <select id="language-select" (change)="changeLanguage($event)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
           <option value="en" [selected]="currentLanguage() === 'en'">English</option>
           <option value="es" [selected]="currentLanguage() === 'es'">Español</option>
@@ -33,11 +39,10 @@ import { CategoriesService } from './categories.service';
         </ul>
       </div>
       <div class="mb-4">
-        <label for="dark-mode-toggle" class="block text-gray-700 text-sm font-bold mb-2">{{'settings.darkMode' | transloco}}</label>
-        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-          <input type="checkbox" name="toggle" id="dark-mode-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" [checked]="isDarkMode()" (change)="toggleDarkMode()"/>
-          <label for="dark-mode-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-        </div>
+        <h3 class="text-lg font-bold mb-2">{{'settings.dataManagement' | transloco}}</h3>
+        <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">{{'settings.exportData' | transloco}}</button>
+        <input type="file" (change)="importData($event)" accept=".json" class="hidden" #fileInput>
+        <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{'settings.importData' | transloco}}</button>
       </div>
     </div>
   `,
@@ -45,6 +50,7 @@ import { CategoriesService } from './categories.service';
 export default class SettingsComponent implements OnInit {
   private translocoService = inject(TranslocoService);
   categoriesService = inject(CategoriesService);
+  tasksStore = inject(TasksStore);
   currentLanguage = signal(this.translocoService.getActiveLang());
   isDarkMode = signal(false);
 
@@ -83,6 +89,59 @@ export default class SettingsComponent implements OnInit {
 
   removeCategory(category: string) {
     this.categoriesService.removeCategory(category);
+  }
+
+  exportData() {
+    const data = {
+      tasks: localStorage.getItem('tasks'),
+      categories: localStorage.getItem('categories'),
+      darkMode: localStorage.getItem('darkMode'),
+      lang: localStorage.getItem('translocoLang'),
+    };
+    const dataStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'todo-list-data.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  importData(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const importedData = JSON.parse(reader.result as string);
+          if (importedData.tasks) {
+            localStorage.setItem('tasks', importedData.tasks);
+            this.tasksStore.setTasks(JSON.parse(importedData.tasks)); // Actualizar el store de tareas
+          }
+          if (importedData.categories) {
+            localStorage.setItem('categories', importedData.categories);
+            this.categoriesService.setCategories(JSON.parse(importedData.categories)); // Actualizar el servicio de categorías
+          }
+          if (importedData.darkMode) {
+            localStorage.setItem('darkMode', importedData.darkMode);
+            this.isDarkMode.set(importedData.darkMode === 'true');
+            this.updateDarkMode();
+          }
+          if (importedData.lang) {
+            localStorage.setItem('translocoLang', importedData.lang);
+            this.translocoService.setActiveLang(importedData.lang);
+          }
+          alert('Datos importados correctamente.');
+        } catch (error) {
+          alert('Error al importar los datos. Asegúrate de que el archivo es un JSON válido.');
+          console.error('Error importing data:', error);
+        }
+      };
+      reader.readAsText(file);
+    }
   }
 
   private updateDarkMode() {

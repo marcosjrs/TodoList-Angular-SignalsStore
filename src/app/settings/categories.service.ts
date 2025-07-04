@@ -26,6 +26,11 @@ export class CategoriesService {
     this.updateLocalStorage();
   }
 
+  setCategories(categories: string[]) {
+    this.categories.set(categories);
+    this.updateLocalStorage();
+  }
+
   private updateLocalStorage() {
     localStorage.setItem('categories', JSON.stringify(this.categories()));
   }

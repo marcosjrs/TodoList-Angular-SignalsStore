@@ -85,6 +85,9 @@ export const TasksStore = signalStore(
           ),
         });
       },
+      setTasks(tasks: Task[]) {
+        patchState(store, { tasks });
+      }
     };
   }),
   withHooks({
