@@ -72,5 +72,10 @@
   "Status": "Status",
   "Yes": "Yes",
   "No": "No",
-  "Delete Task": "Delete Task"
+  "Delete Task": "Delete Task",
+  "Confirmation": "Confirmation",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel",
+  "settings.confirmClearCompleted": "Are you sure you want to delete all completed tasks?",
+  "settings.confirmClearPastDated": "Are you sure you want to delete all tasks with past dates?"
 }

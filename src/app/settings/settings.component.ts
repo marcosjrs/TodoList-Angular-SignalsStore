@@ -5,10 +5,11 @@ import { CategoriesService } from './categories.service';
 import { TasksStore } from '../tasks/tasks.store';
 import { faTrash, faDownload, faUpload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirmation-popup.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslocoModule, FontAwesomeModule],
+  imports: [CommonModule, TranslocoModule, FontAwesomeModule, ConfirmationPopupComponent],
   styleUrl: './settings.component.scss',
   template: `
     <div class="container mx-auto p-4">
@@ -45,10 +46,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         <button (click)="exportData()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"><fa-icon [icon]="faDownload"></fa-icon> {{'settings.exportData' | transloco}}</button>
         <input type="file" (change)="importData($event)" accept=".json" class="hidden" #fileInput>
         <button (click)="fileInput.click()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><fa-icon [icon]="faUpload"></fa-icon>  {{'settings.importData' | transloco}}</button>
-        <button (click)="clearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-6"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
-        <button (click)="clearPastDatedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-6"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearPastDated' | transloco}}</button>
+        <button (click)="confirmClearCompletedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearCompleted' | transloco}}</button>
+        <button (click)="confirmClearPastDatedTasks()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"><fa-icon [icon]="faTrash"></fa-icon> {{'settings.clearPastDated' | transloco}}</button>
       </div>
     </div>
+
+    @if (showConfirmationPopup()) {
+      <app-confirmation-popup [message]="confirmationMessage()" (confirm)="handleConfirmation($event)"></app-confirmation-popup>
+    }
   `,
 })
 export default class SettingsComponent implements OnInit {
@@ -60,6 +65,10 @@ export default class SettingsComponent implements OnInit {
   faTrash = faTrash;
   faDownload = faDownload;
   faUpload = faUpload;
+
+  showConfirmationPopup = signal(false);
+  confirmationMessage = signal('');
+  actionToConfirm: 'clearCompleted' | 'clearPastDated' | null = null;
 
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
@@ -151,12 +160,28 @@ export default class SettingsComponent implements OnInit {
     }
   }
 
-  clearCompletedTasks() {
-    this.tasksStore.clearCompletedTasks();
+  confirmClearCompletedTasks() {
+    this.confirmationMessage.set('settings.confirmClearCompleted');
+    this.actionToConfirm = 'clearCompleted';
+    this.showConfirmationPopup.set(true);
   }
 
-  clearPastDatedTasks() {
-    this.tasksStore.clearPastDatedTasks();
+  confirmClearPastDatedTasks() {
+    this.confirmationMessage.set('settings.confirmClearPastDated');
+    this.actionToConfirm = 'clearPastDated';
+    this.showConfirmationPopup.set(true);
+  }
+
+  handleConfirmation(confirmed: boolean) {
+    this.showConfirmationPopup.set(false);
+    if (confirmed && this.actionToConfirm) {
+      if (this.actionToConfirm === 'clearCompleted') {
+        this.tasksStore.clearCompletedTasks();
+      } else if (this.actionToConfirm === 'clearPastDated') {
+        this.tasksStore.clearPastDatedTasks();
+      }
+    }
+    this.actionToConfirm = null;
   }
 
   private updateDarkMode() {

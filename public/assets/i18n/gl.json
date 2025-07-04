@@ -72,5 +72,10 @@
   "Task Details": "Detalles da Tarefa",
   "Status": "Estado",
   "Yes": "Si",
-  "No": "Non"
+  "No": "Non",
+  "Confirmation": "Confirmación",
+  "Confirm": "Confirmar",
+  "Cancel": "Cancelar",
+  "settings.confirmClearCompleted": "¿Estás seguro de que queres eliminar todas as tarefas completadas?",
+  "settings.confirmClearPastDated": "¿Estás seguro de que queres eliminar todas as tarefas con datas pasadas?"
 }
