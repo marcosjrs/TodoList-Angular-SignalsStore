@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { TasksStore } from '../tasks/tasks.store';
 import { Task } from '../tasks/task.model';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslocoModule],
+  imports: [CommonModule, TranslocoModule, TaskDetailPopupComponent],
   template: `
     <div class="container mx-auto p-4">
       <div class="flex justify-between items-center mb-4">
@@ -31,18 +32,23 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
             @if (day.date) {
               <div class="font-bold">{{ day.date.getDate() }}</div>
               @for (task of day.tasks; track task.id) {
-                <div class="text-xs bg-blue-200 rounded px-1 py-0.5 mt-1 truncate">{{ task.description }}</div>
+                <div class="task text-xs bg-blue-200 rounded px-1 py-0.5 mt-1 truncate" (click)="showTaskDetails(task)">{{ task.description }}</div>
               }
             }
           </div>
         }
       </div>
     </div>
+
+    @if (selectedTask()) {
+      <app-task-detail-popup [task]="selectedTask()" (close)="closeTaskDetails()"></app-task-detail-popup>
+    }
   `,
 })
 export default class CalendarComponent {
   private readonly tasksStore = inject(TasksStore);
   currentDate = signal(new Date());
+  selectedTask = signal<Task | null>(null);
 
   currentMonthYear = computed(() => {
     return this.currentDate().toLocaleString('default', { month: 'long', year: 'numeric' });
@@ -92,5 +98,13 @@ export default class CalendarComponent {
   nextMonth() {
     const current = this.currentDate();
     this.currentDate.set(new Date(current.getFullYear(), current.getMonth() + 1, 1));
+  }
+
+  showTaskDetails(task: Task) {
+    this.selectedTask.set(task);
+  }
+
+  closeTaskDetails() {
+    this.selectedTask.set(null);
   }
 }
