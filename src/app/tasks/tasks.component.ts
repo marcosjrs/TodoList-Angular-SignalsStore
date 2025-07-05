@@ -87,6 +87,7 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
           <div class="mb-4">
             <label for="filterDaysOfWeek" class="block text-gray-700 text-sm font-bold mb-2">{{'tasks.filterByDaysOfWeek' | transloco}}</label>
             <select id="filterDaysOfWeek" formControlName="daysOfWeek" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <option value="NONE">{{'tasks.anyDay' | transloco}}</option>
               @for (day of daysOfWeek; track day) {
                 <option [value]="day">{{ day | transloco }}</option>
               }
@@ -215,8 +216,9 @@ export default class TasksComponent implements OnInit {
       const matchesDescription = filter.description ? task.description.toLowerCase().includes(filter.description.toLowerCase()) : true;
       const matchesCategory = filter.category ? task.category === filter.category : true;
       const matchesStatus = filter.status ? task.status === filter.status : true;
-      const matchesDaysOfWeek = filter.daysOfWeek.length > 0 ?
-        (task.daysOfWeek && filter.daysOfWeek.every(day => task.daysOfWeek!.includes(day))) : true;
+      const matchesDaysOfWeek = filter.daysOfWeek.length === 0 ||
+        filter.daysOfWeek.some(day => day ===DayOfWeek.None) ||
+        (filter.daysOfWeek.length > 0 && task.daysOfWeek && filter.daysOfWeek.some(day => task.daysOfWeek!.includes(day)));
 
       return matchesDescription && matchesCategory && matchesStatus && matchesDaysOfWeek;
     });

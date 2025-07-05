@@ -19,6 +19,7 @@ export enum DayOfWeek {
   Friday = 'FRIDAY',
   Saturday = 'SATURDAY',
   Sunday = 'SUNDAY',
+  None = 'NONE', // Used for tasks that are not specific to any day of the week
 }
 
 export enum TaskStatus {
