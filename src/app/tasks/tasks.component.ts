@@ -316,11 +316,21 @@ export default class TasksComponent implements OnInit {
   }
 
   toggleFormVisibility() {
-    this.showForm.update((value) => !value);
+    this.showForm.update((value) => {
+      if (!value) { // If form is about to be shown
+        this.showFilterForm.set(false); // Hide filter form
+      }
+      return !value;
+    });
   }
 
   toggleFilterFormVisibility() {
-    this.showFilterForm.update((value) => !value);
+    this.showFilterForm.update((value) => {
+      if (!value) { // If filter form is about to be shown
+        this.showForm.set(false); // Hide task form
+      }
+      return !value;
+    });
   }
 
   toggleMinimize(taskId: string) {
