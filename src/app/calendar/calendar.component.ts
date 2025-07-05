@@ -32,7 +32,7 @@ import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.
             @if (day.date) {
               <div class="font-bold">{{ day.date.getDate() }}</div>
               @for (task of day.tasks; track task.id) {
-                <div class="task text-xs bg-blue-200 rounded px-1 py-0.5 mt-1 truncate" (click)="showTaskDetails(task)">{{ task.description }}</div>
+                <div class="task text-xs bg-blue-300 rounded px-1 py-0.5 mt-1 truncate" (click)="showTaskDetails(task)">{{ task.description }}</div>
               }
             }
           </div>
