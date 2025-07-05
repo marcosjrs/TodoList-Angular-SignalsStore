@@ -110,9 +110,9 @@ import { faPlay, faPause, faRedo, faTrash, faPlus, faEye, faEyeSlash, faChevronU
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         @for (task of filteredTasks(); track task.id) {
           <div class="card bg-white shadow-md rounded p-4" [class.opacity-50]="task.isCompleted">
-            <div class="flex justify-between items-start">
+            <div class="flex justify-between items-start" (click)="toggleMinimize(task.id)">
               <h3 class="font-bold text-lg mb-2">{{ task.description }}</h3>
-              <button (click)="toggleMinimize(task.id)" class="text-gray-500 hover:text-gray-700 text-sm">
+              <button class="text-gray-500 hover:text-gray-700 text-sm">
                 <fa-icon [icon]="task.isMinimized ? faChevronDown : faChevronUp"></fa-icon>
               </button>
             </div>
