@@ -28,7 +28,7 @@ import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.
 
       <div class="grid grid-cols-7 gap-2">
         @for (day of calendarDays(); track $index) {
-          <div class="p-2 border rounded" [class.bg-gray-100]="!day.date">
+          <div class="p-2 border rounded" >
             @if (day.date) {
               <div class="font-bold">{{ day.date.getDate() }}</div>
               @for (task of day.tasks; track task.id) {
