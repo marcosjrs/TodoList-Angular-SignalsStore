@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TasksStore } from '../tasks/tasks.store';
-import { Task } from '../tasks/task.model';
+import { Task, TaskStatus } from '../tasks/task.model';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.component';
 
@@ -41,7 +41,7 @@ import { TaskDetailPopupComponent } from './task-detail-popup/task-detail-popup.
     </div>
 
     @if (selectedTask()) {
-      <app-task-detail-popup [task]="selectedTask()" (close)="closeTaskDetails()" (deleteTask)="deleteTaskAndClosePopup($event)"></app-task-detail-popup>
+      <app-task-detail-popup [task]="selectedTask()" (close)="closeTaskDetails()" (deleteTask)="deleteTaskAndClosePopup($event)" (toggleCompleted)="toggleTaskCompleted($event)"></app-task-detail-popup>
     }
   `,
 })
@@ -111,5 +111,29 @@ export default class CalendarComponent {
   deleteTaskAndClosePopup(taskId: string) {
     this.tasksStore.removeTask(taskId);
     this.closeTaskDetails();
+  }
+
+  toggleTaskCompleted(event: { taskId: string, isCompleted: boolean }) {
+    const { taskId, isCompleted } = event;
+    const currentTask = this.tasksStore.tasks().find(task => task.id === taskId);
+
+    if (!isCompleted && currentTask && currentTask.initialDurationSeconds !== undefined && currentTask.initialDurationSeconds > 0) {
+      // If unchecked and it was a timed task, reset time and status
+      this.tasksStore.updateTask(taskId, {
+        isCompleted: isCompleted,
+        durationSeconds: currentTask.initialDurationSeconds,
+        status: TaskStatus.NotStarted,
+      });
+    } else {
+      // Otherwise, just update completion status
+      this.tasksStore.updateTask(taskId, {
+        isCompleted: isCompleted,
+        status: isCompleted ? TaskStatus.Completed : TaskStatus.NotStarted,
+      });
+    }
+    // Update the selected task to reflect the change in the popup immediately
+    if (this.selectedTask()) {
+      this.selectedTask.set({ ...this.selectedTask()!, isCompleted: isCompleted, status: isCompleted ? TaskStatus.Completed : TaskStatus.NotStarted });
+    }
   }
 }

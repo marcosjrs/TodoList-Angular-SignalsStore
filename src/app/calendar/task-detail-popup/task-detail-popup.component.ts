@@ -31,7 +31,10 @@ import { TranslocoModule } from '@ngneat/transloco';
             <p><strong>{{'tasks.specificDate' | transloco}}:</strong> {{ task.specificDate | date:'dd/MM/yyyy' }}</p>
           }
           <p><strong>{{'tasks.status' | transloco}}:</strong> {{ task.status | transloco }}</p>
-          <p><strong>{{'tasks.completed' | transloco}}:</strong> {{ task.isCompleted ? ('tasks.yes' | transloco) : ('tasks.no' | transloco) }}</p>
+          <div class="flex items-center mb-2">
+            <input type="checkbox" [checked]="task.isCompleted" (change)="toggleCompleted.emit({ taskId: task.id, isCompleted: $any($event.target)?.checked })" class="mr-2">
+            <label>{{'tasks.completed' | transloco}}</label>
+          </div>
           <div class="flex justify-end mt-4">
             <button (click)="deleteTask.emit(task.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">{{'tasks.deleteTask' | transloco}}</button>
           </div>
@@ -44,6 +47,7 @@ export class TaskDetailPopupComponent {
   @Input() task: Task | null = null;
   @Output() close = new EventEmitter<void>();
   @Output() deleteTask = new EventEmitter<string>();
+  @Output() toggleCompleted = new EventEmitter<{ taskId: string, isCompleted: boolean }>();
 
   readonly TaskStatus = TaskStatus;
   readonly DayOfWeek = DayOfWeek;
