@@ -95,48 +95,58 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
         <h3 class="text-lg font-bold mb-2">
           {{ 'settings.dataManagement' | transloco }}
         </h3>
-        <button
-          (click)="exportData()"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-        >
-          <fa-icon [icon]="faDownload"></fa-icon>
-          {{ 'settings.exportData' | transloco }}
-        </button>
-        <input
-          type="file"
-          (change)="importData($event)"
-          accept=".json"
-          class="hidden"
-          #fileInput
-        />
-        <button
-          (click)="fileInput.click()"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          <fa-icon [icon]="faUpload"></fa-icon>
-          {{ 'settings.importData' | transloco }}
-        </button>
-        <button
-          (click)="confirmClearCompletedTasks()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
-        >
-          <fa-icon [icon]="faTrash"></fa-icon>
-          {{ 'settings.clearCompleted' | transloco }}
-        </button>
-        <button
-          (click)="confirmClearPastDatedTasks()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
-        >
-          <fa-icon [icon]="faTrash"></fa-icon>
-          {{ 'settings.clearPastDated' | transloco }}
-        </button>
-        <button
-          (click)="confirmClearAllData()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
-        >
-          <fa-icon [icon]="faTrash"></fa-icon>
-          {{ 'settings.clearAllData' | transloco }}
-        </button>
+        <div>
+          <button
+            (click)="exportData()"
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+          >
+            <fa-icon [icon]="faDownload"></fa-icon>
+            {{ 'settings.exportData' | transloco }}
+          </button>
+
+          <input
+            type="file"
+            (change)="importData($event)"
+            accept=".json"
+            class="hidden"
+            #fileInput
+          />
+
+          <button
+            (click)="fileInput.click()"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <fa-icon [icon]="faUpload"></fa-icon>
+            {{ 'settings.importData' | transloco }}
+          </button>
+        </div>
+        <div>
+          <button
+            (click)="confirmClearCompletedTasks()"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+            {{ 'settings.clearCompleted' | transloco }}
+          </button>
+        </div>
+        <div>
+          <button
+            (click)="confirmClearPastDatedTasks()"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+            {{ 'settings.clearPastDated' | transloco }}
+          </button>
+        </div>
+        <div>
+          <button
+            (click)="confirmClearAllData()"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+          >
+            <fa-icon [icon]="faTrash"></fa-icon>
+            {{ 'settings.clearAllData' | transloco }}
+          </button>
+        </div>
       </div>
       <div class="relative inline-block mt-4">
         <div>
@@ -148,8 +158,8 @@ import { ConfirmationPopupComponent } from '../shared/confirmation-popup/confirm
             [checked]="settingsService.minimizeTasks()"
             (change)="settingsService.toggleMinimizeTasks()"
           />
-          <label for="minimize-tasks-toggle"
-            > {{ 'settings.minimizeTasks' | transloco }}
+          <label for="minimize-tasks-toggle">
+            {{ 'settings.minimizeTasks' | transloco }}
           </label>
         </div>
       </div>
