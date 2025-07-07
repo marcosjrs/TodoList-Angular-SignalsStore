@@ -1,4 +1,4 @@
-import { Component, signal, OnDestroy, inject, input, Input, output } from '@angular/core';
+import { Component, signal, OnDestroy, inject, input, Input, output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -21,15 +21,19 @@ import { AlarmService } from '../shared/alarm.service';
     FontAwesomeModule,
   ],
   styleUrl: './chrono.component.scss',
+  selector: 'app-chrono',
   templateUrl: './chrono.component.html',
 })
-export default class ChronoComponent implements OnDestroy {
+export default class ChronoComponent implements OnDestroy, OnInit {
   elapsedTime = signal(0);
   isRunning = signal(false);
   showAlarmForm = signal(false);
   showAlarmMessage = signal(false);
   alarmTime = signal<number | null>(null);
   play = output<void>();
+  finish = output<void>();
+  inSeries = input(false);
+  autoplay = input(false);
 
   @Input()
   set hhmmss(value: string | null) {
@@ -64,6 +68,11 @@ export default class ChronoComponent implements OnDestroy {
   });
   intervalPlaySound?: number;
 
+  ngOnInit(): void {
+    if (this.autoplay()) {
+      this.toggleTimer();
+    }
+  }
 
   toggleTimer() {
     this.isRunning.update((running) => !running);
@@ -123,6 +132,12 @@ export default class ChronoComponent implements OnDestroy {
         }
       }, 3000);
       this.alarmTime.set(null); // Reset alarm after it goes off
+      if(this.inSeries()) {
+        this.isRunning.set(false);
+        this.alarmTime.set(null);
+        clearInterval(this.timer);
+        this.finish.emit();
+      }
     }
   }
 
