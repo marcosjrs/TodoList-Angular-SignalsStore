@@ -76,6 +76,7 @@
   "FRIDAY": "Friday",
   "SATURDAY": "Saturday",
   "SUNDAY": "Sunday",
+  "NONE": "None",
   "NOT_STARTED": "Not Started",
   "IN_PROGRESS": "In Progress",
   "PAUSED": "Paused",
