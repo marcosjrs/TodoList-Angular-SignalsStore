@@ -34,6 +34,7 @@ export default class ChronoComponent implements OnDestroy, OnInit {
   finish = output<void>();
   inSeries = input(false);
   autoplay = input(false);
+  hideAlarmForm = input(false);
 
   @Input()
   set hhmmss(value: string | null) {

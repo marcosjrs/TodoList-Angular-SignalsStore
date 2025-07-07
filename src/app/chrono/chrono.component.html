@@ -23,68 +23,70 @@
       </button>
     </div>
 
-    <button
-      (click)="toggleAlarmForm()"
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm mb-4"
-    >
-      <fa-icon [icon]="showAlarmForm() ? faEyeSlash : faEye"></fa-icon>
-      {{ "chrono.alarm" | transloco }}
-    </button>
-
-    @if (showAlarmForm()) {
-    <form
-      [formGroup]="alarmForm"
-      (ngSubmit)="setAlarm()"
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto"
-    >
-      <div class="flex justify-center space-x-2 mb-4">
-        <div>
-          <label
-            for="hours"
-            class="block text-gray-700 text-sm font-bold mb-2"
-            >{{ "chrono.hours" | transloco }}</label
-          >
-          <input
-            id="hours"
-            type="number"
-            formControlName="hours"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div>
-          <label
-            for="minutes"
-            class="block text-gray-700 text-sm font-bold mb-2"
-            >{{ "chrono.minutes" | transloco }}</label
-          >
-          <input
-            id="minutes"
-            type="number"
-            formControlName="minutes"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div>
-          <label
-            for="seconds"
-            class="block text-gray-700 text-sm font-bold mb-2"
-            >{{ "chrono.seconds" | transloco }}</label
-          >
-          <input
-            id="seconds"
-            type="number"
-            formControlName="seconds"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-      </div>
+    @if(!hideAlarmForm()) {
       <button
-        type="submit"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        (click)="toggleAlarmForm()"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-sm mb-4"
       >
-        {{ "chrono.setAlarm" | transloco }}
+        <fa-icon [icon]="showAlarmForm() ? faEyeSlash : faEye"></fa-icon>
+        {{ "chrono.alarm" | transloco }}
       </button>
-    </form>
+
+      @if (showAlarmForm()) {
+      <form
+        [formGroup]="alarmForm"
+        (ngSubmit)="setAlarm()"
+        class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto"
+      >
+        <div class="flex justify-center space-x-2 mb-4">
+          <div>
+            <label
+              for="hours"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >{{ "chrono.hours" | transloco }}</label
+            >
+            <input
+              id="hours"
+              type="number"
+              formControlName="hours"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div>
+            <label
+              for="minutes"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >{{ "chrono.minutes" | transloco }}</label
+            >
+            <input
+              id="minutes"
+              type="number"
+              formControlName="minutes"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div>
+            <label
+              for="seconds"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >{{ "chrono.seconds" | transloco }}</label
+            >
+            <input
+              id="seconds"
+              type="number"
+              formControlName="seconds"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          {{ "chrono.setAlarm" | transloco }}
+        </button>
+      </form>
+      }
     }
   </div>
 </div>
