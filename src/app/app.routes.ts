@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./chrono/chrono.component'),
   },
   {
+    path: 'series',
+    loadComponent: () => import('./series/series.component'),
+  },
+  {
     path: 'settings',
     loadComponent: () => import('./settings/settings.component'),
   },
