@@ -1,4 +1,4 @@
-import { Component, signal, OnDestroy, inject } from '@angular/core';
+import { Component, signal, OnDestroy, inject, input, Input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -29,6 +29,23 @@ export default class ChronoComponent implements OnDestroy {
   showAlarmForm = signal(false);
   showAlarmMessage = signal(false);
   alarmTime = signal<number | null>(null);
+  play = output<void>();
+
+  @Input()
+  set hhmmss(value: string | null) {
+    if (value) {
+      const [hours, minutes, seconds] = value.split(':').map(Number);
+      if (
+        this.alarmForm.value.hours !== hours ||
+        this.alarmForm.value.minutes !== minutes ||
+        this.alarmForm.value.seconds !== seconds
+      ) {
+        this.alarmForm.patchValue({ hours, minutes, seconds });
+      }
+    }
+  }
+
+
 
   private timer: any;
   private readonly alarmService = inject(AlarmService);
@@ -59,6 +76,9 @@ export default class ChronoComponent implements OnDestroy {
       this.setAlarm(false);
     } else {
       clearInterval(this.timer);
+    }
+    if(this.elapsedTime()<1){
+      this.play.emit();
     }
   }
 
